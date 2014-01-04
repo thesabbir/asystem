@@ -49,22 +49,20 @@ Module.config(function ($routeProvider, $locationProvider) {
         $scope.toggleForm = function () {
             $scope.stat == false ? $scope.stat = true : $scope.stat = false;
 
-
         };
         $scope.add = function () {
-            console.log($scope.product);
             socket.post('/products', $scope.product, function (message) {
-                if( message.errors != undefined) {
+                if (message.errors != undefined) {
                     var msg = [];
-                    for(var item in message.errors[0].ValidationError) {
-                       msg.push('Invalid ' + item + ' !');
+                    for (var item in message.errors[0].ValidationError) {
+                        msg.push('Invalid ' + item + ' !');
                     }
                     $scope.$apply(function () {
                         $scope.messages = msg;
                         $scope.ms_class = "error";
                     });
                 } else {
-                update($scope, '/products', ['Added A New Product !']);
+                    update($scope, '/products', ['Added A New Product !']);
                 }
 
             })
@@ -74,8 +72,7 @@ Module.config(function ($routeProvider, $locationProvider) {
 
     });
 
-
-function update($scope, url, msg) {
+function update ($scope, url, msg) {
     socket.get(url, function (products) {
         $scope.$apply(function () {
             $scope.products = products;
