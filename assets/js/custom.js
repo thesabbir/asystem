@@ -40,20 +40,35 @@ Module.config(function ($routeProvider, $locationProvider) {
         })
     //$locationProvider.html5Mode('on');
     $locationProvider.hashPrefix('!');
-}).controller('ProductList', function ($scope) {
+}).controller('ProductList', function ($scope, $location) {
+        update($scope, '/products');
+        $scope.state = true;
+        $scope.showForm = function () {
+
+
+
+        };
         $scope.add = function () {
+            console.log($scope.product);
             socket.post('/products', $scope.product, function (message) {
-                $scope.$apply(function () {
-                    $location.path('/products');
-                });
+                if( message.errors != undefined) {
+                    var msg = [];
+                    for(var item in message.errors[0].ValidationError) {
+                       msg.push('Invalid ' + item + ' !');
+                    }
+                    $scope.$apply(function () {
+                        $scope.messages = msg;
+                        $scope.ms_class = "error";
+                    });
+                } else {
+                update($scope, '/products', ['Added A New Product !']);
+                }
 
             })
         };
-        socket.get('/products', function (products) {
-            $scope.$apply(function () {
-                $scope.products = products;
-            });
-        });
+
+
+
 
     })
     .controller('Home', function ($scope) {
@@ -61,15 +76,11 @@ Module.config(function ($routeProvider, $locationProvider) {
     });
 
 
-
-$(document).ready(function () {
-
-    $(document).on('click', '#add_btn', function () {
-        $('#add_btn').hide();
-      $('#add_prod').show(300);
+function update($scope, url, msg) {
+    socket.get(url, function (products) {
+        $scope.$apply(function () {
+            $scope.products = products;
+            $scope.messages = msg || "";
+        });
     });
-    $(document).on('click', '.close', function () {
-        $('#add_btn').show();
-        $('#add_prod').hide(300);
-    });
-});
+}
