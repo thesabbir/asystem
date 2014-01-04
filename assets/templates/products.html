@@ -1,5 +1,5 @@
 <h1>Products</h1>
-<button class="add_btn" ng-click="toggleForm()">Add New</button>
+<button class="add_btn btn-primary" ng-hide="!stat" ng-click="toggleForm()">Add New</button>
 
 <div id="add_prod" ng-hide="stat">
 
@@ -19,7 +19,7 @@
 </div>
 <div class="products_list">
     <ul>
-        <li ng-repeat="product in products">{{product.name}} is now @ {{product.price | currency}} <br/> (
+        <li ng-repeat="product in products | orderBy:product.id; console.log(product.id)">{{product.name}} is now @ {{product.price | currency}} <br/> (
                                             {{product.price * 80 | currency:"BDT: "}}) <br/>Added on
                                             {{product.updatedAt}}
         </li>
