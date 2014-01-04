@@ -1,7 +1,7 @@
 <h1>Products</h1>
-<button class="add_btn" ng-click="showForm()">Add New</button>
+<button class="add_btn" ng-click="toggleForm()">Add New</button>
 
-<div id="add_prod" ng-show="false || {{state}}">
+<div id="add_prod" ng-hide="stat">
 
     <form>
         <label for="name">Name :</label>
@@ -10,7 +10,7 @@
         <input type="number" id="price" required="true" ng-model="product.price"/><br/>
         <input type="submit" ng-click="add()" value="Submit">
     </form>
-    <button class="close">Cancel</button>
+    <button ng-click="toggleForm()">Cancel</button>
     <br/>
     <ul>
     <li ng-class="ms_class" ng-repeat="message in messages">{{message}}</li>

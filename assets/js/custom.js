@@ -40,11 +40,14 @@ Module.config(function ($routeProvider, $locationProvider) {
         })
     //$locationProvider.html5Mode('on');
     $locationProvider.hashPrefix('!');
-}).controller('ProductList', function ($scope, $location) {
-        update($scope, '/products');
-        $scope.state = true;
-        $scope.showForm = function () {
+})
+    .controller('ProductList', function ($scope, $location) {
 
+        update($scope, '/products');
+
+        $scope.stat = true;
+        $scope.toggleForm = function () {
+            $scope.stat == false ? $scope.stat = true : $scope.stat = false;
 
 
         };
@@ -66,10 +69,6 @@ Module.config(function ($routeProvider, $locationProvider) {
 
             })
         };
-
-
-
-
     })
     .controller('Home', function ($scope) {
 
