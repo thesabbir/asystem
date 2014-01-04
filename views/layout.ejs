@@ -3,7 +3,11 @@
 <head>
     <title>ASYSTEM</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-    <link rel="stylesheet" href="/styles/style.css"/>
+    <!--STYLES-->
+    <link rel="stylesheet" href="/linker/styles/bootstrap.css">
+    <link rel="stylesheet" href="/linker/styles/style.css">
+    <!--STYLES END-->
+
     <base href="/"/>
 </head>
 
@@ -11,12 +15,13 @@
 <div id="container">
 <%- body %>
 </div>
-
-<script type="text/javascript" src="/js/angular.min.js"></script>
-<script type="text/javascript" src="/js/angular-route.min.js"></script>
-<script type="text/javascript" src="/js/socket.io.js"></script>
-<script type="text/javascript" src="/js/sails.io.js"></script>
-<script type="text/javascript" src="/js/custom.js"></script>
-
+<!--SCRIPTS-->
+<script src="/linker/js/socket.io.js"></script>
+<script src="/linker/js/sails.io.js"></script>
+<script src="/linker/js/angular.min.js"></script>
+<script src="/linker/js/angular-route.min.js"></script>
+<script src="/linker/js/custom.js"></script>
+<script src="/linker/js/bootstrap.min.js"></script>
+<!--SCRIPTS END-->
 </body>
 </html>

@@ -13,14 +13,15 @@
     <button ng-click="toggleForm()">Cancel</button>
 
     <ul>
-    <li ng-class="ms_class" ng-repeat="message in messages">{{message}}</li>
+        <li ng-class="ms_class" ng-repeat="message in messages">{{message}}</li>
     </ul>
 
 </div>
 <div class="products_list">
     <ul>
         <li ng-repeat="product in products">{{product.name}} is now @ {{product.price | currency}} <br/> (
-            {{product.price * 80 | currency:"BDT: "}}) <br/>Added on {{product.updatedAt}}
+                                            {{product.price * 80 | currency:"BDT: "}}) <br/>Added on
+                                            {{product.updatedAt}}
         </li>
     </ul>
 </div>

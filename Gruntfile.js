@@ -52,8 +52,9 @@ module.exports = function (grunt) {
         // A simpler boilerplate library for getting you up and running w/ an
         // automatic listener for incoming messages from Socket.io.
         'linker/js/app.js',
-
-        // *->    put other dependencies here   <-*
+        'linker/js/angular.min.js',
+        'linker/js/angular-route.min.js',
+        'linker/js/custom.js',
 
         // All of the rest of your app scripts imported here
         'linker/**/*.js'
@@ -466,6 +467,7 @@ module.exports = function (grunt) {
     grunt.registerTask('prod', [
         'clean:dev',
         'jst:dev',
+        'stylus:dev',
         'less:dev',
         'copy:dev',
         'coffee:dev',

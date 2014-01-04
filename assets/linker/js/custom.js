@@ -43,7 +43,7 @@ Module.config(function ($routeProvider, $locationProvider) {
 })
     .controller('ProductList', function ($scope, $location) {
 
-        update($scope, '/products');
+        update($scope, '/api/products');
 
         $scope.stat = true;
         $scope.toggleForm = function () {
@@ -51,7 +51,7 @@ Module.config(function ($routeProvider, $locationProvider) {
 
         };
         $scope.add = function () {
-            socket.post('/products', $scope.product, function (message) {
+            socket.post('/api/products', $scope.product, function (message) {
                 if (message.errors != undefined) {
                     var msg = [];
                     for (var item in message.errors[0].ValidationError) {
@@ -62,7 +62,7 @@ Module.config(function ($routeProvider, $locationProvider) {
                         $scope.ms_class = "error";
                     });
                 } else {
-                    update($scope, '/products', ['Added A New Product !']);
+                    update($scope, '/api/products', ['Added A New Product !']);
                 }
 
             })
