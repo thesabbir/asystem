@@ -1,0 +1,14 @@
+<h1>Products</h1>
+<ul ng-repeat="product in products">
+    <li>{{product.name}} is now @ {{product.price | currency}} <br/> ( {{product.price * 80 | currency:"BDT: "}})
+
+    </li>
+</ul>
+<div id="add_prod" ng-hide="{{as}}">
+    <input type="text" ng-model="product.name"/>
+    <input type="number" ng-model="product.price"/>
+    <button ng-click="add()">Add</button>
+</div>
+
+<button ng-click="as = false"></button>
+<a href="/">Back</a>
