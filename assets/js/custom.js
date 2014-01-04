@@ -38,13 +38,17 @@ Module.config(function ($routeProvider, $locationProvider) {
             controller: 'Home',
             templateUrl: '/templates/home.html'
         })
-        .when('/products/add', {
-            controller: 'AddProduct',
-            templateUrl: '/templates/add_product.html'
-        })
     //$locationProvider.html5Mode('on');
     $locationProvider.hashPrefix('!');
 }).controller('ProductList', function ($scope) {
+        $scope.add = function () {
+            socket.post('/products', $scope.product, function (message) {
+                $scope.$apply(function () {
+                    $location.path('/products');
+                });
+
+            })
+        };
         socket.get('/products', function (products) {
             $scope.$apply(function () {
                 $scope.products = products;
@@ -54,14 +58,18 @@ Module.config(function ($routeProvider, $locationProvider) {
     })
     .controller('Home', function ($scope) {
 
-    })
-    .controller('AddProduct', function ($scope, $location) {
-        $scope.add = function () {
-            socket.post('/products', $scope.product, function (message) {
-                $scope.$apply(function () {
-                    $location.path('/products');
-                });
+    });
 
-            })
-        };
-    })
+
+
+$(document).ready(function () {
+
+    $(document).on('click', '#add_btn', function () {
+        $('#add_btn').hide();
+      $('#add_prod').show(300);
+    });
+    $(document).on('click', '.close', function () {
+        $('#add_btn').show();
+        $('#add_prod').hide(300);
+    });
+});
