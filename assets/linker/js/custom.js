@@ -84,7 +84,7 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
     .controller('ProductList', ['$scope', '$location', 'shake', function ($scope, $location, shake) {
         //Subscribing to Socket
         shake.get($scope, products_api);
-        //Listening for notification
+        //Listening for updates and providing notifications
         socket.on('message', function (message) {
             var msg = message.model.toUpperCase().slice(0, -1) + ' : ' + message.data.name + ' ' + message.verb + 'd ';
 
