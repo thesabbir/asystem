@@ -22,7 +22,7 @@ window.log = function log () {
 };
 var products_api = '/api/products/';
 var Module = angular.module('main', ['ngRoute']);
-Module.service('shake', function () {
+Module.service('shake', [function () {
     var popup = $('.notification');
     var notify = this.notify = function ($scope, msg) {
         typeof msg != 'object' ? msg = [msg]: msg;
@@ -30,6 +30,13 @@ Module.service('shake', function () {
         popup.show(100);
         popup.fadeOut(3000);
 
+    };
+    this.setToken = function ($scope) {
+        socket.get('/csrfToken', function (token) {
+            $scope.$apply(function () {
+                $scope._csrf = token._csrf;
+            });
+        });
     };
     this.get = function ($scope, url) {
         socket.get(url, function (products) {
@@ -64,7 +71,7 @@ Module.service('shake', function () {
             });
         }
     }
-});
+}]);
 
 Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
         $routeProvider
@@ -96,6 +103,7 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         $scope.reverse = true;
 
         $scope.toggleForm = function (mode, id) {
+
             $scope.stat = !$scope.stat;
             $scope.messages = "";
             $scope.mode = mode;
