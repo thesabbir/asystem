@@ -1,30 +1,50 @@
-<h2>{{total}} Products</h2>
-<button class="add_btn btn btn-default" ng-hide="!stat" ng-click="toggleForm()">Add New</button>
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="col-xs-4 col-sm-offset-1">
+        <h3 class="title"><a>{{total}} Products and Counting !</a></h3>
 
-<div id="add_prod" ng-hide="stat">
+    </div>
 
-    <button type="button" class="close" ng-click="toggleForm()" aria-hidden="true">&times;</button>
-        <h3 class="title">Add a new Item</h3>
+    <div class="form-group my_nac">
+        <input type="text" ng-model="search" class="form-control search" placeholder="Search Products"/>
+        <button class="add_btn btn btn-primary" ng-click="toggleForm('add')" ng-disabled="!stat">Add New</button>
+    </div>
+</nav>
+
+
+<div class="add_product" ng-hide="stat">
+
+    <button type="button" class="close" ng-click="toggleForm('')" aria-hidden="true">&times;</button>
+    <h3 class="title">{{mode}} Item</h3>
+
     <form class="form-horizontal" role="form">
         <div class="form-group">
             <label class="col-sm-2 control-label" for="name">Name :</label>
+
             <div class="col-xs-9">
-            <input class="form-control" type="text" id="name" required="true" ng-model="product.name"/><br/>
+                <input class="form-control" type="text" id="name" required="true"
+                       ng-value="product.name"
+                       ng-model="product.name"/><br/>
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-sm-2 control-label" for="price">Price :</label>
+
             <div class="col-xs-3">
-                <input class="form-control" type="number" id="price" required="true" ng-model="product.price"/><br/>
+                <input class="form-control" type="number" id="price" min="0" required="true"
+                       ng-value="product.price"
+                       ng-model="product.price"/><br/>
             </div>
 
             <label class="col-sm-3 control-label" for="in_stock">In Stock :</label>
+
             <div class="col-xs-3">
-                <input class="form-control" type="number" id="in_stock" required="true" ng-model="product.inStock"/><br/>
+                <input class="form-control" type="number" id="in_stock" min="0" required="true"
+                       ng-value="product.inStock"
+                       ng-model="product.inStock"/><br/>
             </div>
         </div>
-        <input class="btn btn-primary col-sm-offset-2" type="submit" ng-click="add()" value="Submit">
+        <input class="btn btn-primary col-sm-offset-2" type="submit" ng-click="action(mode,id)" value="Save">
     </form>
 
     <ul>
@@ -32,21 +52,29 @@
     </ul>
 
 </div>
-<div class="table-responsive table-scrollable">
-    <table class="table table-hover">
+<div class="table-responsive table-scrollable ">
+    <table class="table table-hover id">
         <tr class="sort">
-            <th><a ng-click="sortBy('id')">ID</a></th>
+            <th class="id"><a ng-click="sortBy('id')">ID</a></th>
             <th><a ng-click="sortBy('name')">Product Name</a></th>
             <th><a ng-click="sortBy('price')">Product Price</a></th>
             <th><a ng-click="sortBy('inStock')">In Stock</a></th>
             <th><a ng-click="sortBy('updatedAt')">Updated At</a></th>
+            <th><a>Actions</a></th>
         </tr>
-        <tr ng-repeat="product in products | orderBy:order:reverse">
-            <td>{{product.id}}</td>
+        <tr ng-repeat="product in products | filter:search | orderBy:order:reverse">
+            <td class="id">{{product.id}}</td>
             <td>{{product.name}}</td>
             <td>{{product.price | currency}}</td>
-            <td>{{product.inStock || 'Not Available'}}</td>
-            <td>{{product.updatedAt}}</td>
+            <td>{{product.inStock || 'Unavailable'}}</td>
+            <td>{{product.updatedAt | date:'MM-dd-yyyy'}}</td>
+            <td>
+                <div class="btn-group btn-group-xs">
+                    <button ng-click="toggleForm('edit', product.id)" class="btn btn-primary ">Edit</button>
+                    <button ng-click="togglePopup('details', product.id)" class="btn btn-default ">Details</button>
+                    <button ng-click="togglePopup('trash', product.id)" class="btn btn-danger ">Trash</button>
+                </div>
+            </td>
         </tr>
     </table>
 
