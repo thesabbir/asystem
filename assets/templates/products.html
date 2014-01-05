@@ -1,27 +1,53 @@
-<h1>Products</h1>
-<button class="add_btn btn-primary" ng-hide="!stat" ng-click="toggleForm()">Add New</button>
+<h2>{{total}} Products</h2>
+<button class="add_btn btn btn-default" ng-hide="!stat" ng-click="toggleForm()">Add New</button>
 
 <div id="add_prod" ng-hide="stat">
 
-    <form>
-        <label for="name">Name :</label>
-        <input type="text" id="name" required="true" ng-model="product.name"/><br/>
-        <label for="price">Price :</label>
-        <input type="number" id="price" required="true" ng-model="product.price"/><br/>
-        <input type="submit" ng-click="add()" value="Submit">
+    <button type="button" class="close" ng-click="toggleForm()" aria-hidden="true">&times;</button>
+        <h3 class="title">Add a new Item</h3>
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="name">Name :</label>
+            <div class="col-xs-9">
+            <input class="form-control" type="text" id="name" required="true" ng-model="product.name"/><br/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="price">Price :</label>
+            <div class="col-xs-3">
+                <input class="form-control" type="number" id="price" required="true" ng-model="product.price"/><br/>
+            </div>
+
+            <label class="col-sm-3 control-label" for="in_stock">In Stock :</label>
+            <div class="col-xs-3">
+                <input class="form-control" type="number" id="in_stock" required="true" ng-model="product.inStock"/><br/>
+            </div>
+        </div>
+        <input class="btn btn-primary col-sm-offset-2" type="submit" ng-click="add()" value="Submit">
     </form>
-    <button ng-click="toggleForm()">Cancel</button>
 
     <ul>
         <li ng-class="ms_class" ng-repeat="message in messages">{{message}}</li>
     </ul>
 
 </div>
-<div class="products_list">
-    <ul>
-        <li ng-repeat="product in products | orderBy:product.id; console.log(product.id)">{{product.name}} is now @ {{product.price | currency}} <br/> (
-                                            {{product.price * 80 | currency:"BDT: "}}) <br/>Added on
-                                            {{product.updatedAt}}
-        </li>
-    </ul>
+<div class="table-responsive table-scrollable">
+    <table class="table table-hover">
+        <tr class="sort">
+            <th><a ng-click="sortBy('id')">ID</a></th>
+            <th><a ng-click="sortBy('name')">Product Name</a></th>
+            <th><a ng-click="sortBy('price')">Product Price</a></th>
+            <th><a ng-click="sortBy('inStock')">In Stock</a></th>
+            <th><a ng-click="sortBy('updatedAt')">Updated At</a></th>
+        </tr>
+        <tr ng-repeat="product in products | orderBy:order:reverse">
+            <td>{{product.id}}</td>
+            <td>{{product.name}}</td>
+            <td>{{product.price | currency}}</td>
+            <td>{{product.inStock || 'Not Available'}}</td>
+            <td>{{product.updatedAt}}</td>
+        </tr>
+    </table>
+
 </div>

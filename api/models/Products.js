@@ -23,6 +23,10 @@ module.exports = {
         },
         details: {
             type: 'STRING'
+        },
+        inStock: {
+            type: 'INTEGER',
+            required: true
         }
 
 

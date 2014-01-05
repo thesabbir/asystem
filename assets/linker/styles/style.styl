@@ -8,21 +8,40 @@ body
 
 #add_prod
   position absolute;
-  background #D6D5D5
-  padding 10px
-  left 49%
+  padding 20px
+  left 35%
+  background #eeeeee
+  width 520px
+  border-radius 7px
+  box-shadow 0 0 25px - 5px rgba(11, 29, 66, 0.3)
 
 .add_btn
   position absolute
-  top 1%
+  top 15px
   left 31%
+.table-scrollable
+  max-height 580px
+  overflow-y scroll
 .products_list
   overflow-y scroll
-  width 400px
+  width 600px
   height 520px
   ul
-     li
-        margin 10px 0
+    margin 10px 0
+    li
+      margin 10px 0
+
 .error
   font-size 14px
   color red
+
+.sort
+  a
+    &:hover
+      text-decoration none
+      cursor pointer
+
+h3.title
+    text-align center
+    margin 0
+    margin-bottom 10px

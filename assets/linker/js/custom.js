@@ -38,17 +38,25 @@ Module.config(function ($routeProvider, $locationProvider) {
             controller: 'Home',
             templateUrl: '/templates/home.html'
         })
+
     //$locationProvider.html5Mode('on');
     $locationProvider.hashPrefix('!');
 })
     .controller('ProductList', function ($scope, $location) {
-
-        update($scope, '/api/products');
-
+        socket.on('update', function () {
+            update($scope, '/api/products');
+        });
         $scope.stat = true;
+        $scope.reverse = true;
         $scope.toggleForm = function () {
-            $scope.stat == false ? $scope.stat = true : $scope.stat = false;
+            $scope.stat = !$scope.stat;
+            $scope.messages = "";
 
+        };
+        $scope.sortBy = function (value) {
+
+            $scope.reverse = !$scope.reverse;
+            $scope.order = value;
         };
         $scope.add = function () {
             socket.post('/api/products', $scope.product, function (message) {
@@ -62,11 +70,13 @@ Module.config(function ($routeProvider, $locationProvider) {
                         $scope.ms_class = "error";
                     });
                 } else {
-                    update($scope, '/api/products', ['Added A New Product !']);
+                    socket.emit('change');
+                    update($scope, '/api/products', ["Success !"]);
                 }
 
             })
         };
+
     })
     .controller('Home', function ($scope) {
 
@@ -76,6 +86,7 @@ function update ($scope, url, msg) {
     socket.get(url, function (products) {
         $scope.$apply(function () {
             $scope.products = products;
+            $scope.total = products.length;
             $scope.messages = msg || "";
         });
     });
