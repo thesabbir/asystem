@@ -1,2 +1,2 @@
 # ASYSTEM
-### a Sails application Sceleton
+### a application Sceleton for store

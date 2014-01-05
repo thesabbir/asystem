@@ -2,12 +2,6 @@
     var socket = io.connect();
     socket.on('connect', function socketConnected () {
 
-        socket.on('message', function messageReceived (message) {
-
-            log('New message received :: ', message);
-
-        });
-
         log(
             'Socket is now connected !'
         );
@@ -44,7 +38,18 @@ Module.config(function ($routeProvider, $locationProvider) {
     $locationProvider.hashPrefix('!');
 })
     .controller('ProductList', function ($scope, $location) {
+        //Subscribing to Socket
+        update($scope, products_api);
+        //Listening for notification
+        socket.on('message', function (message) {
+            var msg = message.model.toUpperCase().slice(0, -1) + ' : ' + message.data.name + ' ' + message.verb + 'd ';
+
+            update($scope, products_api);
+        });
+
         $scope.stat = true;
+        $scope.reverse = true;
+
         $scope.toggleForm = function (mode, id) {
             $scope.stat = !$scope.stat;
             $scope.messages = "";
@@ -68,31 +73,13 @@ Module.config(function ($routeProvider, $locationProvider) {
                 edit($scope);
 
             } else if (mode == 'add') {
-                socket.post(products_api, $scope.product, function (message) {
-                    if (message.errors != undefined) {
-                        var msg = [];
-                        for (var item in message.errors[0].ValidationError) {
-                            msg.push('Invalid ' + item + ' !');
-                        }
-                        $scope.$apply(function () {
-                            $scope.messages = msg;
-                            $scope.ms_class = "error";
-                        });
-                    } else {
-                        socket.emit('change');
-                        update($scope, products_api, ["Success !"]);
-                    }
-
-                });
+                add($scope);
             } else {
                 console.log(mode);
             }
         };
-        update($scope, products_api);
-        socket.on('update', function () {
-            update($scope, products_api);
-        });
-        $scope.reverse = true;
+
+
         $scope.sortBy = function (value) {
 
             $scope.reverse = !$scope.reverse;
@@ -116,10 +103,26 @@ function update ($scope, url, msg) {
 function edit($scope) {
     var url = products_api + $scope.id;
     socket.put(url, $scope.product, function (res) {
-        socket.emit('change');
-        socket.get(products_api, function (products) {
-            update($scope, products_api, ["Success !"]);
-        });
+        handle(res);
 
     });
+}
+function add($scope) {
+    socket.post(products_api, $scope.product, function (res) {
+        handle(res);
+    });
+};
+function handle(res) {
+    if (res.errors != undefined) {
+        var msg = [];
+        for (var item in res.errors[0].ValidationError) {
+            msg.push('Invalid ' + item + ' !');
+        }
+        $scope.$apply(function () {
+            $scope.messages = msg;
+            $scope.ms_class = "error";
+        });
+    } else {
+        return false;
+    }
 }
