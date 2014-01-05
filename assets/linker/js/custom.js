@@ -44,7 +44,7 @@ Module.config(function ($routeProvider, $locationProvider) {
         socket.on('message', function (message) {
             var msg = message.model.toUpperCase().slice(0, -1) + ' : ' + message.data.name + ' ' + message.verb + 'd ';
 
-            update($scope, products_api);
+            update($scope, products_api, [msg]);
         });
 
         $scope.stat = true;
@@ -79,7 +79,6 @@ Module.config(function ($routeProvider, $locationProvider) {
             }
         };
 
-
         $scope.sortBy = function (value) {
 
             $scope.reverse = !$scope.reverse;
@@ -96,23 +95,27 @@ function update ($scope, url, msg) {
         $scope.$apply(function () {
             $scope.products = products;
             $scope.total = products.length;
-            $scope.messages = msg || "";
+            if(msg != undefined) {
+                $scope.messages = msg || "";
+                $('.notification').show(100);
+                $('.notification').fadeOut(3000);
+            }
         });
     });
 }
-function edit($scope) {
+function edit ($scope) {
     var url = products_api + $scope.id;
     socket.put(url, $scope.product, function (res) {
         handle(res);
 
     });
 }
-function add($scope) {
+function add ($scope) {
     socket.post(products_api, $scope.product, function (res) {
         handle(res);
     });
 };
-function handle(res) {
+function handle (res) {
     if (res.errors != undefined) {
         var msg = [];
         for (var item in res.errors[0].ValidationError) {

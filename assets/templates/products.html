@@ -9,7 +9,11 @@
         <button class="add_btn btn btn-primary" ng-click="toggleForm('add')" ng-disabled="!stat">Add New</button>
     </div>
 </nav>
-
+<div class="notification">
+    <ul>
+        <li ng-class="ms_class" ng-repeat="message in messages">{{message}}</li>
+    </ul>
+</div>
 
 <div class="add_product" ng-hide="stat">
 
@@ -47,9 +51,7 @@
         <input class="btn btn-primary col-sm-offset-2" type="submit" ng-click="action(mode,id)" value="Save">
     </form>
 
-    <ul>
-        <li ng-class="ms_class" ng-repeat="message in messages">{{message}}</li>
-    </ul>
+
 
 </div>
 <div class="table-responsive table-scrollable ">
