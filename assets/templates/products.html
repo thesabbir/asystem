@@ -6,50 +6,10 @@
 
     <div class="form-group my_nac">
         <input type="text" ng-model="search" class="form-control search" placeholder="Search Products"/>
-        <button class="add_btn btn btn-primary" ng-click="show('add')">Add New</button>
+        <button class="add_btn btn btn-primary" ng-click="openDialog({},'add')" ng-disabled="editForm">Add New</button>
     </div>
 </nav>
 
-<div class="add_product" ng-show="editForm || false">
-
-    <button type="button" class="close" ng-click="show('close')" aria-hidden="true">&times;</button>
-    <h3 class="title">{{mode.toUpperCase()}} Item</h3>
-
-    <form class="form-horizontal" role="form">
-        <div class="form-group">
-            <label class="col-sm-2 control-label" for="name">Name :</label>
-
-            <div class="col-xs-9">
-                <input class="form-control" type="text" id="name" required="true"
-                       ng-value="product.name"
-                       ng-model="product.name"/><br/>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="col-sm-2 control-label" for="price">Price :</label>
-
-            <div class="col-xs-3">
-                <input class="form-control" type="number" id="price" min="0" required="true"
-                       ng-value="product.price"
-                       ng-model="product.price"/><br/>
-            </div>
-
-            <label class="col-sm-3 control-label" for="in_stock">In Stock :</label>
-
-            <div class="col-xs-3">
-                <input class="form-control" type="number" id="in_stock" min="0" required="true"
-                       ng-value="product.inStock"
-                       ng-model="product.inStock"/><br/>
-            </div>
-        </div>
-        <!--<input type="hidden" name="_csrf" ng-value="_csrf" />-->
-        <input class="btn btn-primary col-sm-offset-2" type="submit" ng-click="action()" value="Save">
-    </form>
-
-
-
-</div>
 <div class="table-responsive table-scrollable ">
     <table class="table table-hover id">
         <tr class="sort">
@@ -67,8 +27,8 @@
             <td>{{product.inStock || 'Unavailable'}}</td>
             <td>{{product.updatedAt | date:'MM-dd-yyyy'}}</td>
             <td>
-                <div class="btn-group btn-group-xs">
-                    <button ng-click="show('edit', product.id)" class="btn btn-primary ">Edit</button>
+                <div class="btn-group btn-group-xs" >
+                    <button ng-click="openDialog(product, 'edit')" class="btn btn-primary ">Edit</button>
                     <button ng-click="show('details', product.id)" class="btn btn-default ">Details</button>
                     <button ng-click="show('delete', product.id)" class="btn btn-danger ">Delete</button>
                 </div>

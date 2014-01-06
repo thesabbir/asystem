@@ -1,9 +1,6 @@
 <div ng-controller="Boss">
-
-    <div class="notification" ng-show="notification || false">
-        <ul>
-            <li ng-class="ms_class" ng-repeat="message in messages">{{message}}</li>
-        </ul>
+    <div class="notification">
+        <alert ng-repeat="notice in notices" type="notice.type" close="closeNotice($index)">{{notice.msg}}</alert>
     </div>
-    <div id="view" ng-view></div>
+    <div  class="container" ng-view></div>
 </div>
