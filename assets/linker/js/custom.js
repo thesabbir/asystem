@@ -1,6 +1,6 @@
 (function (io) {
     var socket = io.connect();
-    socket.on('connect', function socketConnected () {
+    socket.on('connect', function socketConnected() {
 
         log(
             'Socket is now connected !'
@@ -15,59 +15,28 @@
 
 })(window.io);
 
-window.log = function log () {
-    if (typeof console !== 'undefined') {
+window.log = function log() {
+    if(typeof console !== 'undefined') {
         console.log.apply(console, arguments);
     }
 };
-var products_api = '/api/products/';
+
 var Module = angular.module('main', ['ngRoute']);
-Module.service('shake', [function () {
-    var popup = $('.notification');
-    var notify = this.notify = function ($scope, msg) {
-        typeof msg != 'object' ? msg = [msg]: msg;
-        $scope.messages = msg;
-        popup.show(100);
-        popup.fadeOut(3000);
-
-    };
-    this.setToken = function ($scope) {
-        socket.get('/csrfToken', function (token) {
-            $scope.$apply(function () {
-                $scope._csrf = token._csrf;
+Module.factory('Fetch', [function () {
+    return {
+        get: function (url, cb) {
+            socket.get(url, function (all) {
+                return cb(all);
             });
-        });
-    };
-    this.get = function ($scope, url) {
-        socket.get(url, function (products) {
-            $scope.$apply(function () {
-                $scope.products = products;
-                $scope.total = products.length;
+        },
+        post: function (url, data, cb) {
+            socket.post(url, data, function (response) {
+                return cb(response);
             });
-        });
-    };
-
-    this.put = function ($scope) {
-        var url = products_api + $scope.id;
-        socket.put(url, $scope.product, function (res) {
-            handle($scope, res);
-
-        });
-    };
-    this.post = function ($scope) {
-        socket.post(products_api, $scope.product, function (res) {
-            handle($scope, res);
-        });
-    };
-    var handle = function ($scope, res) {
-        if (res.errors != undefined) {
-            var msg = [];
-            for (var item in res.errors[0].ValidationError) {
-                msg.push('Invalid ' + item + ' !');
-            }
-            $scope.$apply(function () {
-                notify($scope, msg);
-                $scope.ms_class = "error";
+        },
+        update: function (url, data, cb) {
+            socket.put(url, data, function (response) {
+                return cb(response);
             });
         }
     }
@@ -88,55 +57,78 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         $locationProvider.hashPrefix('!');
     }])
 
-    .controller('ProductList', ['$scope', '$location', 'shake', function ($scope, $location, shake) {
-        //Subscribing to Socket
-        shake.get($scope, products_api);
-        //Listening for updates and providing notifications
-        socket.on('message', function (message) {
-            var msg = message.model.toUpperCase().slice(0, -1) + ' : ' + message.data.name + ' ' + message.verb + 'd ';
+    .controller('ProductList', ['$scope', '$location', 'Fetch', function ($scope, $location, Fetch) {
+        var api = '/api/products/';
 
-            shake.get($scope, products_api);
-            shake.notify($scope, msg);
+        //Get Initial Data and Subscribe to Products
+        Fetch.get(api, function (products) {
+            $scope.products = products;
+            $scope.$apply();
         });
 
-        $scope.stat = true;
-        $scope.reverse = true;
+        $scope.show = function (action, id) {
+            if(action) {
+                switch (action) {
+                    case 'add':
+                        $scope.product = {}
+                        $scope.mode = action;
+                        break;
+                        $scope.toggleForm('editForm');
+                    case 'edit':
+                        Fetch.get(api+id, function (product) {
+                            $scope.mode = action;
+                            $scope.product = product;
+                            $scope.$apply();
+                        });
+                        $scope.toggleForm('editForm')
+                        break;
+                    case 'details':
+                        Fetch.get(api+id, function (product) {
+                            $scope.product = product;
+                            $scope.$apply();
+                            console.log(product);
+                        });
 
-        $scope.toggleForm = function (mode, id) {
+                        break;
+                    case 'close':
+                        $scope.toggleForm('editForm');
+                        break;
+                    default :
+                        console.log(action);
+                }
+            }
 
-            $scope.stat = !$scope.stat;
-            $scope.messages = "";
-            $scope.mode = mode;
-            if (mode == 'edit') {
-                var u = products_api + id;
-                $scope.id = id;
-                socket.get(u, function (product) {
-                    $scope.$apply(function () {
-                        $scope.product = product;
-                    });
+        };
+        $scope.action = function () {
+            if(!$scope.product.id && $scope.mode == 'add') {
+                Fetch.post(api,$scope.product,function (response) {
                 });
-
-            } else {
-                $scope.product = {};
+            } else if($scope.product.id && $scope.mode == 'edit') {
+                Fetch.update(api,$scope.product,function (response) {
+                    $scope.notify('Ok');
+                });
             }
 
-        };
-        $scope.action = function (mode) {
-            if (mode == 'edit') {
-                shake.put($scope);
 
-            } else if (mode == 'add') {
-                shake.post($scope);
-            } else {
-                console.log(mode);
-            }
-        };
+        }
 
+    }])
+    .controller('Boss', ['$scope', function ($scope) {
         $scope.sortBy = function (value) {
 
             $scope.reverse = !$scope.reverse;
             $scope.order = value;
         };
+        $scope.toggleForm = function (form) {
+            if(form) $scope[form] = !$scope[form];
+        };
+        $scope.notify = function (messages) {
+          //  angular.isArray(messages) ? messages = [messages] : console.log('ok');;
+            $scope.notification = false;
+            setTimeout(function () {
+                $scope.notification = true;
+            }, 200);
+        }
 
     }])
     .controller('Home', ['$scope', function ($scope) {

@@ -6,19 +6,14 @@
 
     <div class="form-group my_nac">
         <input type="text" ng-model="search" class="form-control search" placeholder="Search Products"/>
-        <button class="add_btn btn btn-primary" ng-click="toggleForm('add')" ng-disabled="!stat">Add New</button>
+        <button class="add_btn btn btn-primary" ng-click="show('add')">Add New</button>
     </div>
 </nav>
-<div class="notification">
-    <ul>
-        <li ng-class="ms_class" ng-repeat="message in messages">{{message}}</li>
-    </ul>
-</div>
 
-<div class="add_product" ng-hide="stat">
+<div class="add_product" ng-show="editForm || false">
 
-    <button type="button" class="close" ng-click="toggleForm('')" aria-hidden="true">&times;</button>
-    <h3 class="title">{{mode}} Item</h3>
+    <button type="button" class="close" ng-click="show('close')" aria-hidden="true">&times;</button>
+    <h3 class="title">{{mode.toUpperCase()}} Item</h3>
 
     <form class="form-horizontal" role="form">
         <div class="form-group">
@@ -49,7 +44,7 @@
             </div>
         </div>
         <!--<input type="hidden" name="_csrf" ng-value="_csrf" />-->
-        <input class="btn btn-primary col-sm-offset-2" type="submit" ng-click="action(mode,id)" value="Save">
+        <input class="btn btn-primary col-sm-offset-2" type="submit" ng-click="action()" value="Save">
     </form>
 
 
@@ -73,9 +68,9 @@
             <td>{{product.updatedAt | date:'MM-dd-yyyy'}}</td>
             <td>
                 <div class="btn-group btn-group-xs">
-                    <button ng-click="toggleForm('edit', product.id)" class="btn btn-primary ">Edit</button>
-                    <button ng-click="togglePopup('details', product.id)" class="btn btn-default ">Details</button>
-                    <button ng-click="togglePopup('trash', product.id)" class="btn btn-danger ">Trash</button>
+                    <button ng-click="show('edit', product.id)" class="btn btn-primary ">Edit</button>
+                    <button ng-click="show('details', product.id)" class="btn btn-default ">Details</button>
+                    <button ng-click="show('delete', product.id)" class="btn btn-danger ">Delete</button>
                 </div>
             </td>
         </tr>
