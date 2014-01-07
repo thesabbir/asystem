@@ -38,6 +38,7 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
                         })
                         return deferred.promise;
                     }]
+
                 }
             })
             .when('/', {
