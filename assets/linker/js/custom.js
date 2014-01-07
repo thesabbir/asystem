@@ -2,11 +2,11 @@
     var socket = io.connect();
     socket.on('connect', function socketConnected() {
 
-        log(
+        console.log(
             'Socket is now connected !'
         );
         socket.on('disconnect', function () {
-            log("Socket is now Disconnected");
+            console.log("Socket is now Disconnected");
 
         });
 
@@ -17,11 +17,7 @@
 String.prototype.capF = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
-window.log = function log() {
-    if(typeof console !== 'undefined') {
-        console.log.apply(console, arguments);
-    }
-};
+
 
 var Module = angular.module('main', ['ngRoute', 'ui.bootstrap']);
 Module.service('api', [function () {
@@ -32,10 +28,10 @@ Module.service('api', [function () {
 Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
         $routeProvider
             .when('/products', {
-                controller : 'ProductList',
-                templateUrl : '/templates/products.html',
-                resolve : {
-                    products : ['$q',function ($q) {
+                controller: 'ProductList',
+                templateUrl: '/templates/products.html',
+                resolve: {
+                    products: ['$q', function ($q) {
                         var deferred = $q.defer();
                         socket.get('/api/products', function (data) {
                             deferred.resolve(data);
@@ -45,8 +41,8 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
                 }
             })
             .when('/', {
-                controller : 'Home',
-                templateUrl : '/templates/home.html'
+                controller: 'Home',
+                templateUrl: '/templates/home.html'
             });
 
         $locationProvider.hashPrefix('!');
@@ -64,8 +60,8 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
                 message.verb != 'destroy' ? message.verb += 'd ' : message.verb = 'Deleted';
                 var msg = message.model.slice(0, -1).capF() + '-ID : ' + message.id + name + ' was ' + message.verb;
                 $scope.notify({
-                    msg : msg,
-                    type : 'success'
+                    msg: msg,
+                    type: 'success'
                 });
                 socket.get(api.products, function (data) {
                     $scope.$apply(function () {
@@ -78,16 +74,16 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
 
             $scope.editDialog = function (product, mode) {
                 var modalInstance = $modal.open({
-                    templateUrl : '/templates/form.html',
-                    controller : 'FormCtrl',
-                    resolve : {
-                        product : function () {
+                    templateUrl: '/templates/form.html',
+                    controller: 'FormCtrl',
+                    resolve: {
+                        product: function () {
                             return product;
                         },
-                        mode : function () {
+                        mode: function () {
                             return mode;
                         },
-                        url : function () {
+                        url: function () {
                             return api.products;
                         }
                     }
@@ -95,13 +91,13 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             }
             $scope.showDetails = function (product) {
                 var modalInstance = $modal.open({
-                    templateUrl : '/templates/details.html',
-                    controller : 'showDetailsCtrl',
-                    resolve : {
-                        product : function () {
+                    templateUrl: '/templates/details.html',
+                    controller: 'showDetailsCtrl',
+                    resolve: {
+                        product: function () {
                             return product;
                         },
-                        editDialog : function () {
+                        editDialog: function () {
                             return $scope.editDialog;
                         }
                     }
@@ -109,13 +105,13 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             }
             $scope.deleteDialog = function (data) {
                 var modalInstance = $modal.open({
-                    templateUrl : '/templates/delete_dialog.html',
-                    controller : 'DeleteCtrl',
-                    resolve : {
-                        data : function () {
+                    templateUrl: '/templates/delete_dialog.html',
+                    controller: 'DeleteCtrl',
+                    resolve: {
+                        data: function () {
                             return data;
                         },
-                        url : function () {
+                        url: function () {
                             return api.products;
                         }
                     }
@@ -135,7 +131,6 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
                 $scope.notices.push(msg);
             });
             setTimeout(function () {
-
                 $scope.$apply(function () {
                     $scope.closeNotice(0);
                 });
