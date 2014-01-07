@@ -16,7 +16,7 @@
 })(window.io);
 String.prototype.capF = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
-}
+};
 window.log = function log() {
     if(typeof console !== 'undefined') {
         console.log.apply(console, arguments);
@@ -28,7 +28,7 @@ Module.service('api', [function () {
     var prefix = '/api';
     this.products = prefix + '/products/';
 
-}])
+}]);
 Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
         $routeProvider
             .when('/products', {
@@ -49,12 +49,11 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
                 templateUrl : '/templates/home.html'
             });
 
-        //$locationProvider.html5Mode('on');
         $locationProvider.hashPrefix('!');
     }])
 
-    .controller('ProductList', ['$scope', '$location', '$modal', 'products', 'api',
-        function ($scope, $location, $modal, products, api) {
+    .controller('ProductList', ['$scope', '$location', '$modal', 'api', 'products',
+        function ($scope, $location, $modal, api, products) {
 
             $scope.products = products;
             $scope.total = $scope.products.length;
@@ -110,7 +109,7 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             }
             $scope.deleteDialog = function (data) {
                 var modalInstance = $modal.open({
-                    templateUrl : '/templates/delete_dlog.html',
+                    templateUrl : '/templates/delete_dialog.html',
                     controller : 'DeleteCtrl',
                     resolve : {
                         data : function () {
@@ -132,64 +131,70 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
 
         $scope.notices = [];
         $scope.notify = function (msg) {
-            $scope.notices.push(msg);
-            $scope.$apply();
+            $scope.$apply(function () {
+                $scope.notices.push(msg);
+            });
             setTimeout(function () {
-                $scope.closeNotice(0);
-                $scope.$apply();
+
+                $scope.$apply(function () {
+                    $scope.closeNotice(0);
+                });
             }, 8000);
-        }
+        };
         $scope.closeNotice = function (index) {
             $scope.notices.splice(index, 1);
-        }
+        };
 
     }])
     .controller('Home', ['$scope', function ($scope) {
 
     }])
-    .controller('FormCtrl',function ($scope, $modalInstance, product, mode, url) {
+    .controller('FormCtrl', ['$scope', '$modalInstance', 'product', 'mode', 'url',
+        function ($scope, $modalInstance, product, mode, url) {
 
-        $scope.product = product;
+            $scope.product = product;
 
-        $scope.mode = mode;
+            $scope.mode = mode;
 
-        $scope.submit = function () {
-            switch (mode) {
-                case 'Edit':
-                    socket.put(url + product.id, product);
-                    break;
-                default :
-                    socket.post(url, product)
+            $scope.submit = function () {
+                switch (mode) {
+                    case 'Edit':
+                        socket.put(url + product.id, product);
+                        break;
+                    default :
+                        socket.post(url, product)
 
+                }
+
+                $modalInstance.close('close');
+            };
+
+            $scope.cancel = function () {
+                $modalInstance.dismiss('cancel');
+            };
+
+        }]).controller('showDetailsCtrl', ['$scope', '$modalInstance', 'product', 'editDialog',
+        function ($scope, $modalInstance, product, editDialog) {
+            $scope.product = product;
+            $scope.edit = function () {
+                $scope.ok();
+                return editDialog(product, 'edit');
+            }
+            $scope.ok = function () {
+                $modalInstance.close('ok');
             }
 
-            $modalInstance.close('close');
-        };
-
-        $scope.cancel = function () {
-            $modalInstance.dismiss('cancel');
-        };
-
-    }).controller('showDetailsCtrl', function ($scope, $modalInstance, product, editDialog) {
-        $scope.product = product;
-        $scope.edit = function () {
-            $scope.ok();
-            return editDialog(product, 'edit');
-        }
-        $scope.ok = function () {
-            $modalInstance.close('ok');
-        }
-
-    })
-    .controller('DeleteCtrl', function ($scope, $modalInstance, data, url) {
-        $scope.data = data;
-        $scope.cancel = function () {
-            $modalInstance.dismiss('cancelled');
-        }
-        $scope.delete = function () {
-            socket.delete(url + data.id, data, function () {
-                $modalInstance.close('deleted');
-            });
-        }
-    })
+        }])
+    .controller('DeleteCtrl', ['$scope', '$modalInstance', 'data', 'url',
+        function ($scope, $modalInstance, data, url) {
+            $scope.data = data;
+            $scope.cancel = function () {
+                $modalInstance.dismiss('cancelled');
+            }
+            $scope.delete = function () {
+                socket.delete(url + data.id, data, function () {
+                    $modalInstance.close('deleted');
+                });
+            }
+        }]);
 
