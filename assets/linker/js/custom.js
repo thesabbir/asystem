@@ -124,14 +124,7 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             $scope.reverse = !$scope.reverse;
             $scope.order = value;
         };
-        $scope.currentPage = 1;
-        $scope.maxItems = 3;
-        $scope.setPage = function (pageNo) {
-            $scope.currentPage = pageNo;
-            console.log( $scope.currentPage *  $scope.maxItems);
-        };
-        $scope.numb = 0;
-
+        $scope.notifyTemplate = 'notify';
         $scope.notices = [];
         $scope.notify = function (msg) {
             $scope.$apply(function () {
