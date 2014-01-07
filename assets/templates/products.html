@@ -20,7 +20,8 @@
             <th><a ng-click="sortBy('updatedAt')">Updated At</a></th>
             <th><a>Actions</a></th>
         </tr>
-        <tr ng-repeat="product in products | filter:search | orderBy:order:reverse">
+        <tr ng-repeat="product in products | filter:search | orderBy:order:reverse | limitTo:maxItems*currentPage;">
+
             <td class="id">{{product.id}}</td>
             <td>{{product.name}}</td>
             <td>{{product.price | currency}}</td>
@@ -34,6 +35,7 @@
                 </div>
             </td>
         </tr>
+        <!--<pagination total-items="total" page="currentPage" max-size="maxItems" class="pagination-sm" boundary-links="true"></pagination>-->
     </table>
 
 </div>

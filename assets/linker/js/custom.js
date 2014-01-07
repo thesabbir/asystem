@@ -18,7 +18,6 @@ String.prototype.capF = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
-
 var Module = angular.module('main', ['ngRoute', 'ui.bootstrap']);
 Module.service('api', [function () {
     var prefix = '/api';
@@ -125,6 +124,13 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             $scope.reverse = !$scope.reverse;
             $scope.order = value;
         };
+        $scope.currentPage = 1;
+        $scope.maxItems = 3;
+        $scope.setPage = function (pageNo) {
+            $scope.currentPage = pageNo;
+            console.log( $scope.currentPage *  $scope.maxItems);
+        };
+        $scope.numb = 0;
 
         $scope.notices = [];
         $scope.notify = function (msg) {
