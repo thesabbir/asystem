@@ -52,9 +52,9 @@ module.exports = function (grunt) {
         'linker/js/angular.js',
         'linker/js/angular-route.js',
         'linker/js/ui-bootstrap-tpls-0.9.0.js',
-        'linker/js/custom.js',
         // All of the rest of your app scripts imported here
-        'linker/**/*.js'
+        'linker/**/*.js',
+        'linker/js/custom.js'
     ];
 
     /**

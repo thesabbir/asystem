@@ -1,7 +1,7 @@
 <div ng-controller="Boss">
     <div class="notification">
         <alert ng-repeat="notice in notices" type="notice.type"
-               close="closeNotice($index)" ng-bind-template="{{notice.msg}}"></alert>
+               close="closeNotice($index)" ng-bind="notice.msg"></alert>
     </div>
     <div  class="container" ng-view></div>
 </div>

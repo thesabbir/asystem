@@ -43,7 +43,10 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             .when('/', {
                 controller: 'Home',
                 templateUrl: '/templates/home.html'
-            });
+            })
+            .otherwise({
+                redirectTo: '/'
+            })
 
         $locationProvider.hashPrefix('!');
     }])
@@ -119,6 +122,7 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             }
         }])
     .controller('Boss', ['$scope', function ($scope) {
+
         $scope.sortBy = function (value) {
 
             $scope.reverse = !$scope.reverse;
@@ -146,11 +150,8 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
     }])
     .controller('FormCtrl', ['$scope', '$modalInstance', 'product', 'mode', 'url',
         function ($scope, $modalInstance, product, mode, url) {
-
             $scope.product = product;
-
             $scope.mode = mode;
-
             $scope.submit = function () {
                 switch (mode) {
                     case 'Edit':
@@ -171,11 +172,12 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         }]).controller('showDetailsCtrl', ['$scope', '$modalInstance', 'product', 'editDialog',
         function ($scope, $modalInstance, product, editDialog) {
             $scope.product = product;
+
             $scope.edit = function () {
                 $scope.ok();
                 return editDialog(product, 'edit');
             }
-            $scope.ok = function () {
+            $scope.close = function () {
                 $modalInstance.close('ok');
             }
 

@@ -1,10 +1,10 @@
 <form class="form-horizontal" role="form">
 
-<div class="modal-header">
-    <h3 class="title">{{mode}} an Item</h3>
-</div>
+    <div class="modal-header">
+        <h3 class="title">{{mode}} an Item</h3>
+    </div>
 
-<div class="modal-body">
+    <div class="modal-body">
         <div class="form-group">
             <label class="col-sm-2 control-label" for="name">Name :</label>
 
@@ -14,7 +14,6 @@
                        ng-model="product.name"/><br/>
             </div>
         </div>
-
         <div class="form-group">
             <label class="col-sm-2 control-label" for="price">Price :</label>
 
@@ -32,12 +31,12 @@
                        ng-model="product.inStock"/><br/>
             </div>
         </div>
-</div>
-<div class="modal-footer">
-<!--<input type="hidden" name="_csrf" ng-value="_csrf" />-->
-    <input class="btn btn-primary" type="submit" ng-click="submit()" value="Save">
-    <button class="btn btn-danger" ng-click="cancel()">Cancel</button>
-</div>
+    </div>
+    <div class="modal-footer">
+        <!--<input type="hidden" name="_csrf" ng-value="_csrf" />-->
+        <input class="btn btn-primary" type="submit" ng-click="submit()" value="Save">
+        <button class="btn btn-danger" ng-click="cancel()">Cancel</button>
+    </div>
 </form>
 
 
