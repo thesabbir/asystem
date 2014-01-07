@@ -53,24 +53,28 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         $locationProvider.hashPrefix('!');
     }])
 
-    .controller('ProductList', ['$scope', '$location', '$modal', 'products',
-        function ($scope, $location, $modal, products) {
+    .controller('ProductList', ['$scope', '$location', '$modal', 'products', 'api',
+        function ($scope, $location, $modal, products, api) {
 
             $scope.products = products;
+
             socket.on('message', function (message) {
-                var msg = message.model.slice(0, -1).capF() + ' : ' + message.data.name + ' ' + message.verb + 'd ';
+                var name = " & Name : ";
+                message.data ? name += message.data.name : name = '';
+                message.verb != 'destroy' ? message.verb += 'd ' : message.verb = 'Deleted';
+                var msg = message.model.slice(0, -1).capF() + '-ID : ' + message.id + name + ' was ' + message.verb;
                 $scope.notify({
                     msg : msg,
                     type : 'success'
-                })
-                socket.get('/api/products', function (data) {
+                });
+                socket.get(api.products, function (data) {
                     $scope.$apply(function () {
                         $scope.products = data;
-                    })
-                })
+                    });
+                });
             });
 
-            $scope.openDialog = function (product, mode) {
+            $scope.editDialog = function (product, mode) {
                 var modalInstance = $modal.open({
                     templateUrl : '/templates/form.html',
                     controller : 'FormCtrl',
@@ -80,11 +84,41 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
                         },
                         mode : function () {
                             return mode;
+                        },
+                        url : function () {
+                            return api.products;
                         }
                     }
                 })
             }
-
+            $scope.showDetails = function (product) {
+                var modalInstance = $modal.open({
+                    templateUrl : '/templates/details.html',
+                    controller : 'showDetailsCtrl',
+                    resolve : {
+                        product : function () {
+                            return product;
+                        },
+                        editDialog : function () {
+                            return $scope.editDialog;
+                        }
+                    }
+                })
+            }
+            $scope.deleteDialog = function (data) {
+                var modalInstance = $modal.open({
+                    templateUrl : '/templates/delete_dlog.html',
+                    controller : 'DeleteCtrl',
+                    resolve : {
+                        data : function () {
+                            return data;
+                        },
+                        url : function () {
+                            return api.products;
+                        }
+                    }
+                })
+            }
         }])
     .controller('Boss', ['$scope', function ($scope) {
         $scope.sortBy = function (value) {
@@ -110,22 +144,18 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
     .controller('Home', ['$scope', function ($scope) {
 
     }])
-    .controller('FormCtrl', function ($scope, api, $modalInstance, product, mode) {
-        var url = api.products + product.id;
+    .controller('FormCtrl',function ($scope, $modalInstance, product, mode, url) {
 
         $scope.product = product;
+        $scope.mode = mode;
 
         $scope.submit = function () {
             switch (mode) {
-                case 'edit':
-                    socket.put(url, product, function (res) {
-                        console.log(res);
-                    });
+                case 'Edit':
+                    socket.put(url + product.id, product);
                     break;
                 default :
-                    socket.post(api.products, product, function (res) {
-                        console.log(res);
-                    });
+                    socket.post(url, product)
 
             }
 
@@ -136,5 +166,26 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             $modalInstance.dismiss('cancel');
         };
 
+    }).controller('showDetailsCtrl', function ($scope, $modalInstance, product, editDialog) {
+        $scope.product = product;
+        $scope.edit = function () {
+            $scope.ok();
+            return editDialog(product, 'edit');
+        }
+        $scope.ok = function () {
+            $modalInstance.close('ok');
+        }
+
+    })
+    .controller('DeleteCtrl', function ($scope, $modalInstance, data, url) {
+        $scope.data = data;
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancelled');
+        }
+        $scope.delete = function () {
+            socket.delete(url + data.id, data, function () {
+                $modalInstance.close('deleted');
+            });
+        }
     })
 

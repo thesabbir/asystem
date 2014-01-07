@@ -2,5 +2,6 @@
     <div class="notification">
         <alert ng-repeat="notice in notices" type="notice.type" close="closeNotice($index)">{{notice.msg}}</alert>
     </div>
+
     <div  class="container" ng-view></div>
 </div>

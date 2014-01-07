@@ -6,7 +6,7 @@
 
     <div class="form-group my_nac">
         <input type="text" ng-model="search" class="form-control search" placeholder="Search Products"/>
-        <button class="add_btn btn btn-primary" ng-click="openDialog({},'add')" ng-disabled="editForm">Add New</button>
+        <button class="add_btn btn btn-primary" ng-click="editDialog({},'Add')" ng-disabled="editForm">Add New</button>
     </div>
 </nav>
 
@@ -28,9 +28,9 @@
             <td>{{product.updatedAt | date:'MM-dd-yyyy'}}</td>
             <td>
                 <div class="btn-group btn-group-xs" >
-                    <button ng-click="openDialog(product, 'edit')" class="btn btn-primary ">Edit</button>
-                    <button ng-click="show('details', product.id)" class="btn btn-default ">Details</button>
-                    <button ng-click="show('delete', product.id)" class="btn btn-danger ">Delete</button>
+                    <button ng-click="editDialog(product, 'Edit')" class="btn btn-primary ">Edit</button>
+                    <button ng-click="showDetails(product)" class="btn btn-default ">Details</button>
+                    <button ng-click="deleteDialog(product)" class="btn btn-danger ">Delete</button>
                 </div>
             </td>
         </tr>
