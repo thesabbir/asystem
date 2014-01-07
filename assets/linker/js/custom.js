@@ -35,13 +35,13 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
                 controller : 'ProductList',
                 templateUrl : '/templates/products.html',
                 resolve : {
-                    products : function ($q) {
+                    products : ['$q',function ($q) {
                         var deferred = $q.defer();
                         socket.get('/api/products', function (data) {
                             deferred.resolve(data);
                         })
                         return deferred.promise;
-                    }
+                    }]
                 }
             })
             .when('/', {
