@@ -57,6 +57,7 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         function ($scope, $location, $modal, products, api) {
 
             $scope.products = products;
+            $scope.total = $scope.products.length;
 
             socket.on('message', function (message) {
                 var name = " & Name : ";
@@ -70,6 +71,8 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
                 socket.get(api.products, function (data) {
                     $scope.$apply(function () {
                         $scope.products = data;
+                        $scope.total = $scope.products.length;
+
                     });
                 });
             });
@@ -147,6 +150,7 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
     .controller('FormCtrl',function ($scope, $modalInstance, product, mode, url) {
 
         $scope.product = product;
+
         $scope.mode = mode;
 
         $scope.submit = function () {
