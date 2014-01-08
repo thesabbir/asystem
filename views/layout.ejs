@@ -12,15 +12,19 @@
 </head>
 
 <body>
-
+<div class="container">
+    <% if (session.authenticated){ %>
 <%- body %>
 
-<!--SCRIPTS-->
-<script src="/linker/js/socket.io.js"></script>
-<script src="/linker/js/angular.js"></script>
-<script src="/linker/js/angular-route.js"></script>
-<script src="/linker/js/ui-bootstrap-tpls-0.9.0.js"></script>
-<script src="/linker/js/custom.js"></script>
-<!--SCRIPTS END-->
+<% } else { %>
+<form action="/api/login" method="post">
+    <h3>Login is Required</h3>
+    <input type="text" name="username" placeholder="Username"/>
+    <input type="password" name="password"/>
+    <input type="submit" value="Login"/>
+</form>
+
+<% }%>
+</div>
 </body>
 </html>

@@ -16,27 +16,34 @@
  */
 
 module.exports = {
-    limit: function (req, res) {
+	feed: function (req, res, next) {
+		Products.find(function (err, products) {
+			if (err) return next(err);
+			if (!products) return res.json({err: 'No product Found'});
+			res.json(products);
+		})
+	},
+	limit: function (req, res) {
 
-        if (req.query.from) var skip = Number(req.query.from);
-        if (req.query.limit) var limit = Number(req.query.limit);
+		if (req.query.from) var skip = Number(req.query.from);
+		if (req.query.limit) var limit = Number(req.query.limit);
 
-        Products.find()
-            .paginate({
-                page: skip,
-                limit: limit
-            })
-            .exec(function (err, result) {
-                res.json(result);
-        });
+		Products.find()
+			.paginate({
+				page: skip,
+				limit: limit
+			})
+			.exec(function (err, result) {
+				res.json(result);
+			});
 
-    },
+	},
 
-    /**
-     * Overrides for the settings in `config/controllers.js`
-     * (specific to ProductsController)
-     */
-    _config: {}
+	/**
+	 * Overrides for the settings in `config/controllers.js`
+	 * (specific to ProductsController)
+	 */
+	_config: {}
 
 
 };

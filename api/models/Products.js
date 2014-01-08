@@ -26,7 +26,7 @@ module.exports = {
 		},
 		value: {
 			type: 'integer',
-			required: 'true'
+			required: true
 		},
 		inStock: {
 			type: 'integer',

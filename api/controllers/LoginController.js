@@ -14,12 +14,17 @@ module.exports = {
 				if (!valid) return res.json({err: 'Password mismatch !'});
 				req.session.authenticated = true;
 				req.session.User = user;
-				res.json({authorized : true, user: user})
-
+				if(req.wantsJSON) return res.json({authorized: true, user: user});
+				res.redirect('/');
 
 			});
 
 		});
+	},
+	destroy: function (req, res, next) {
+		req.session.authenticated = false;
+		req.session.User = null;
+		return res.json({ authorized: false });
 	},
 	_config: {
 
