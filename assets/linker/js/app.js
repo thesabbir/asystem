@@ -1,24 +1,4 @@
-(function (io) {
-   var socket = io.connect();
-   socket.on('connect', function socketConnected() {
-
-      console.log(
-         'Socket is now connected !'
-      );
-      socket.on('disconnect', function () {
-         console.log("Socket is now Disconnected");
-
-      });
-
-   });
-   window.socket = socket;
-
-})(window.io);
-String.prototype.capF = function () {
-   return this.charAt(0).toUpperCase() + this.slice(1);
-};
-
-var Module = angular.module('main', ['ngRoute', 'ui.bootstrap', 'ProductsModule']);
+var Module = angular.module('main', ['Services','ngRoute', 'ui.bootstrap', 'ProductsModule', 'CustomersModule']);
 
 Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
       $routeProvider
@@ -26,11 +6,11 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             controller: 'ProductList',
             templateUrl: '/templates/products.html',
             resolve: {
-               products: ['$q', function ($q) {
+               products: ['$q', '$api', function ($q, $api) {
                   var deferred = $q.defer();
-                  socket.get('/api/products', function (data) {
+                  $api.fetch($api.products, function (data) {
                      deferred.resolve(data);
-                  })
+                  });
                   return deferred.promise;
                }]
 
@@ -60,11 +40,6 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
 
       $locationProvider.hashPrefix('!');
    }])
-   .controller('CustomersList', ['$scope', '$rootScope', '$modal',  'customers',
-      function ($scope, $rootScope, $modal, customers) {
-         $rootScope.title = 'Manage customers';
-         $scope.customers = customers;
-      }])
 
    .controller('Boss', ['$scope', function ($scope) {
 

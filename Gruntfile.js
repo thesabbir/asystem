@@ -54,7 +54,7 @@ module.exports = function (grunt) {
         'linker/js/ui-bootstrap-tpls-0.9.0.js',
         'linker/js/ProductsModule.js',
        '/linker/js/socket.js',
-        'linker/js/custom.js',
+        'linker/js/CustomersModule.js',
        // All of the rest of your app scripts imported here
        'linker/**/*.js'
     ];

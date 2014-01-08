@@ -1,16 +1,10 @@
 
-var MyService = angular.module('MyService', [])
-   .service('api', [function () {
-      var prefix = '/api';
-      this.products = prefix + '/products/';
 
-   }])
-
-
-var ProductsModule = angular.module('ProductsModule', ['MyService'])
-   .controller('ProductList', ['$scope', '$rootScope', '$modal', 'api', 'products',
-      function ($scope, $rootScope, $modal, api, products) {
+var ProductsModule = angular.module('ProductsModule', [])
+   .controller('ProductList', ['$scope', '$rootScope', '$modal', '$api', 'products',
+      function ($scope, $rootScope, $modal, $api, products) {
          $scope.products = products;
+
          $rootScope.title = $scope.products.length + " Products & counting";
 
          socket.on('message', function (message) {
