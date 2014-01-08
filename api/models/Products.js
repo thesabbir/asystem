@@ -8,28 +8,35 @@
 
 module.exports = {
 
-    attributes: {
-        category: {
-            type: 'STRING'
-            //required: true
-        },
-        name: {
-            type: 'STRING',
-            required: true
-        },
-        price: {
-            type: 'INTEGER',
-            required: true
-        },
-        details: {
-            type: 'STRING'
-        },
-        inStock: {
-            type: 'INTEGER',
-            required: true
-        }
+	attributes: {
+		category: {
+			type: 'string'
+			//required: true
+		},
+		name: {
+			type: 'string',
+			required: true
+		},
+		price: {
+			type: 'integer',
+			required: true
+		},
+		details: {
+			type: 'string'
+		},
+		value: {
+			type: 'integer'
+			//,required: 'true'
+		},
+		inStock: {
+			type: 'integer',
+			required: true
+		},
+		totalSold: {
+			type: 'integer',
+			defaultsTo: 0
+		}
 
-
-    }
+	}
 
 };
