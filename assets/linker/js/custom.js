@@ -18,12 +18,8 @@ String.prototype.capF = function () {
    return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
-var Module = angular.module('main', ['ngRoute', 'ui.bootstrap']);
-Module.service('api', [function () {
-   var prefix = '/api';
-   this.products = prefix + '/products/';
+var Module = angular.module('main', ['ngRoute', 'ui.bootstrap', 'ProductsModule']);
 
-}]);
 Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
       $routeProvider
          .when('/products', {
@@ -64,80 +60,12 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
 
       $locationProvider.hashPrefix('!');
    }])
-   .controller('CustomersList', ['$scope', '$rootScope', '$modal', 'api', 'customers',
-      function ($scope, $rootScope, $modal, api, customers) {
+   .controller('CustomersList', ['$scope', '$rootScope', '$modal',  'customers',
+      function ($scope, $rootScope, $modal, customers) {
          $rootScope.title = 'Manage customers';
          $scope.customers = customers;
       }])
-   .controller('ProductList', ['$scope', '$rootScope', '$modal', 'api', 'products',
-      function ($scope, $rootScope, $modal, api, products) {
-         $scope.products = products;
-         $rootScope.title = $scope.products.length + " Products & counting";
 
-         socket.on('message', function (message) {
-            var name = " & Name : ";
-            message.data ? name += message.data.name : name = '';
-            message.verb != 'destroy' ? message.verb += 'd ' : message.verb = 'Deleted';
-            var msg = message.model.slice(0, -1).capF() + '-ID : ' + message.id + name + ' was ' + message.verb;
-            $scope.notify({
-               msg: msg,
-               type: 'success'
-            });
-            socket.get(api.products, function (data) {
-               $scope.$apply(function () {
-                  $scope.products = data;
-                  $scope.total = $scope.products.length;
-
-               });
-            });
-         });
-
-         $scope.editDialog = function (product, mode) {
-            var modalInstance = $modal.open({
-               templateUrl: '/templates/form.html',
-               controller: 'FormCtrl',
-               resolve: {
-                  product: function () {
-                     return product;
-                  },
-                  mode: function () {
-                     return mode;
-                  },
-                  url: function () {
-                     return api.products;
-                  }
-               }
-            })
-         }
-         $scope.showDetails = function (product) {
-            var modalInstance = $modal.open({
-               templateUrl: '/templates/details.html',
-               controller: 'showDetailsCtrl',
-               resolve: {
-                  product: function () {
-                     return product;
-                  },
-                  editDialog: function () {
-                     return $scope.editDialog;
-                  }
-               }
-            })
-         }
-         $scope.deleteDialog = function (data) {
-            var modalInstance = $modal.open({
-               templateUrl: '/templates/delete_dialog.html',
-               controller: 'DeleteCtrl',
-               resolve: {
-                  data: function () {
-                     return data;
-                  },
-                  url: function () {
-                     return api.products;
-                  }
-               }
-            })
-         }
-      }])
    .controller('Boss', ['$scope', function ($scope) {
 
       $scope.sortBy = function (value) {
