@@ -7,14 +7,13 @@ module.exports = {
 			required: true
 		},
 		username: {
-			type: 'integer',
+			type: 'string',
 			minLength: 5,
 			unique: true,
 			required: true
 		},
 		password: {
 			type: 'string',
-			minLength: 6,
 			required: true
 		},
 		totalSales: {
@@ -35,28 +34,27 @@ module.exports = {
 		isAdmin: {
 			type: 'boolean',
 			defaultsTo: false
+		},
+		toJSON: function () {
+			var obj = this.toObject();
+			delete obj.password;
+			//delete  obj.username;
+			return obj;
 		}
-	},
-
-	toJSON: function () {
-		var obj = this.toObject();
-		delete obj.password;
-		delete  obj.username;
-		return obj;
 	},
 	beforeValidation: function (values, next) {
 		if (typeof values.admin !== 'undefined') {
 			if (values.admin === 'unchecked') {
 				values.admin = false;
-			} else  if (values.admin[1] === 'on') {
+			} else if (values.admin[1] === 'on') {
 				values.admin = true;
 			}
 		}
 		next();
 	},
 	beforeCreate: function (values, next) {
-		if (!values.password || values.password != values.confirmation) {
-			return next({err: ["Password doesn't match password confirmation."]});
+		if (!values.password || values.password != values.confirmation || values.password.length < 6) {
+			return next({err: ["Invalid password"]});
 		}
 
 		require('bcrypt').hash(values.password, 10, function (err, encryptedPassword) {
