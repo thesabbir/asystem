@@ -38,7 +38,7 @@ module.exports = {
 		toJSON: function () {
 			var obj = this.toObject();
 			delete obj.password;
-			//delete  obj.username;
+			delete  obj.username;
 			return obj;
 		}
 	},
@@ -53,8 +53,8 @@ module.exports = {
 		next();
 	},
 	beforeCreate: function (values, next) {
-		if (!values.password || values.password != values.confirmation || values.password.length < 6) {
-			return next({err: ["Invalid password"]});
+		if (!values.password || values.password != values.confirm || values.password.length < 6) {
+			return next({err: "Invalid password or passwords doesn't matches"});
 		}
 
 		require('bcrypt').hash(values.password, 10, function (err, encryptedPassword) {

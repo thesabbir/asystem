@@ -36,8 +36,11 @@ module.exports = {
 			type: 'integer',
 			defaultsTo: 0
 		},
-		profit: function () {
-			return this.price - this.value;
+		toFeed: function () {
+			var obj = this.toObject();
+			delete obj.value;
+			delete obj.totalSold;
+			return obj;
 		}
 	}
 
