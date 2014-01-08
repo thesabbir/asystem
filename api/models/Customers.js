@@ -21,7 +21,7 @@ module.exports = {
             type: 'integer',
             required: true
         },
-        rating: {
+        ratings: {
             type: 'integer',
             defaultsTo: 5
         },

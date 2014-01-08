@@ -40,6 +40,20 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
 
             }
          })
+         .when('/customers', {
+            controller: 'CustomersList',
+            templateUrl: '/templates/customers.html',
+            resolve: {
+               customers: ['$q', function ($q) {
+                  var deferred = $q.defer();
+                  socket.get('/api/customers', function (data) {
+                     deferred.resolve(data);
+                  })
+                  return deferred.promise;
+               }]
+
+            }
+         })
          .when('/', {
             controller: 'Home',
             templateUrl: '/templates/home.html'
@@ -50,9 +64,13 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
 
       $locationProvider.hashPrefix('!');
    }])
-
-   .controller('ProductList', ['$scope', '$rootScope', '$location', '$modal', 'api', 'products',
-      function ($scope, $rootScope, $location, $modal, api, products) {
+   .controller('CustomersList', ['$scope', '$rootScope', '$modal', 'api', 'customers',
+      function ($scope, $rootScope, $modal, api, customers) {
+         $rootScope.title = 'Manage customers';
+         $scope.customers = customers;
+      }])
+   .controller('ProductList', ['$scope', '$rootScope', '$modal', 'api', 'products',
+      function ($scope, $rootScope, $modal, api, products) {
          $scope.products = products;
          $rootScope.title = $scope.products.length + " Products & counting";
 
