@@ -25,18 +25,21 @@ module.exports = {
 			type: 'string'
 		},
 		value: {
-			type: 'integer'
-			//,required: 'true'
+			type: 'integer',
+			required: 'true'
 		},
 		inStock: {
 			type: 'integer',
-			required: true
+			defaultsTo: 0
 		},
 		totalSold: {
 			type: 'integer',
 			defaultsTo: 0
+		},
+		profit: function () {
+			return this.price - this.value;
 		}
-
 	}
+
 
 };
