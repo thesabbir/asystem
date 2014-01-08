@@ -3,13 +3,16 @@ body
 .sort
 nav
   position relative
-
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
 .notification
   position absolute;
   z-index 400
   right 8%
   top 12%
-  width 300px
+.afternav
+  margin-bottom 70px
 .details
   td
     border 1px solid #DDD;
@@ -25,10 +28,14 @@ nav
 
 .id
   border 1px solid #DDD;
-.my_nac
+.my_nav
+  z-index 11111
   position absolute
-  top 16%
+  top 8px
   right 11%
+.login_form
+  width 400px
+  margin 0 auto
 .table-scrollable
   max-height 580px
   overflow-y scroll

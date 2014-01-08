@@ -1,20 +1,14 @@
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="col-xs-3 col-sm-offset-1">
-        <h4 class="title"><a>{{total}} Products and Counting !</a></h4>
-
-    </div>
-
-    <div class="form-group my_nac">
-        <input type="text" ng-model="search" typeahead="product.name for product in products" class="form-control search" placeholder="Search Products By Name, Price etc.."/>
-        <button class="add_btn btn btn-primary" ng-click="editDialog({},'Add')" ng-disabled="editForm">Add New</button>
-    </div>
-</nav>
-
+<div class="form-group my_nav">
+    <input type="text" ng-model="search" typeahead="product.name for product in products" class="form-control search"
+           placeholder="Search Products By Name, Price etc.."/>
+    <button class="add_btn btn btn-primary" ng-click="editDialog({},'Add')" ng-disabled="editForm">Add New</button>
+</div>
 <div class="table-responsive table-scrollable ">
     <table class="table table-hover id">
-        <tr class="sort" tooltip-append-to-body="true" tooltip-popup-delay='500' tooltip-placement="left" tooltip="Click to Sort">
+        <tr class="sort" tooltip-append-to-body="true" tooltip-popup-delay='500' tooltip-placement="left"
+            tooltip="Click to Sort">
             <th class="id"><a ng-click="sortBy('id')">ID</a></th>
-            <th><a ng-click="sortBy('name')" >Product Name</a></th>
+            <th><a ng-click="sortBy('name')">Product Name</a></th>
             <th><a ng-click="sortBy('price')">Product Price</a></th>
             <th><a ng-click="sortBy('value')">Product Value</a></th>
             <th><a ng-click="sortBy('inStock')">In Stock</a></th>
@@ -30,14 +24,13 @@
             <td ng-bind="product.inStock || 'Unavailable'"></td>
             <td ng-bind="product.updatedAt | date:'MM-dd-yyyy'"></td>
             <td>
-                <div class="btn-group btn-group-xs" >
+                <div class="btn-group btn-group-xs">
                     <button ng-click="editDialog(product, 'Edit')" class="btn btn-primary ">Edit</button>
                     <button ng-click="showDetails(product)" class="btn btn-default ">Details</button>
                     <button ng-click="deleteDialog(product)" class="btn btn-danger ">Delete</button>
                 </div>
             </td>
         </tr>
-        <!--<pagination total-items="total" page="currentPage" max-size="maxItems" class="pagination-sm" boundary-links="true"></pagination>-->
     </table>
 
 </div>
