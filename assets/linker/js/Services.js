@@ -28,14 +28,17 @@ var Services = angular.module('Services', [])
       this.submit = function (obj, cb) {
          if (obj.edit) {
             socket.put(obj.model + obj.data.id, obj.data, function (res) {
+               console.log(obj.model + obj.data.id);
+               if (!cb) return res;
+               return cb(res);
+            });
+         } else {
+            socket.post(obj.model, obj.data, function (res) {
+               console.log(res);
                if (!cb) return res;
                return cb(res);
             });
          }
-         socket.post(obj.model + obj.data.id, obj.data, function (res) {
-            if (!cb) return res;
-            return cb(res);
-         })
       };
 
       this['delete'] = function (model, data, cb) {

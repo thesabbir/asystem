@@ -1,4 +1,7 @@
-var Ctrl = angular.module('Ctrl', [])
+angular.module('Ctrl', [])
+   .controller('Home', ['$scope', function ($scope) {
+
+   }])
    .controller('Boss', ['$scope', '$modal', function ($scope, $modal) {
 
       $scope.sortBy = function (value) {

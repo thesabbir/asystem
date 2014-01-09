@@ -1,7 +1,7 @@
 <form class="form-horizontal" role="form">
 
     <div class="modal-header">
-        <h3 class="title" ng-bind="mode + ' a Customer'"></h3>
+        <h3 class="title" ng-bind="mode ? 'Edit a Customer' : 'Add a Customer"></h3>
     </div>
 
     <div class="modal-body">
@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label" for="email">email :</label>
+            <label class="col-sm-2 control-label" for="email">Email :</label>
 
             <div class="col-sm-10">
                 <input class="form-control" type="email" id="email" min="0"
@@ -23,10 +23,10 @@
                        ng-model="customer.email"/><br/>
             </div>
 
-            <label class="col-sm-3 control-label" for="phone">Phone :</label>
+            <label class="col-sm-2 control-label" for="phone">Phone :</label>
 
-            <div class="col-xs-3">
-                <input class="form-control" type="number" id="phone" min="0" required="true"
+            <div class="col-sm-10">
+                <input class="form-control" type="phone" id="phone" min="0" required="true"
                        ng-value="customer.phone"
                        ng-model="customer.phone"/><br/>
             </div>

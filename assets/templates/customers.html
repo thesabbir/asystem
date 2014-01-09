@@ -1,7 +1,7 @@
 <div class="form-group my_nav">
     <input type="text" ng-model="search" typeahead="customer.name for customer in customers" class="form-control search"
            placeholder="Search customers"/>
-    <button class="add_btn btn btn-primary" ng-click="editDialog({},'Add')" ng-disabled="editForm">Add New</button>
+    <button class="add_btn btn btn-primary" ng-click="editDialog({})" ng-disabled="editForm">Add New</button>
 </div>
 <div class="table-responsive table-scrollable ">
     <table class="table table-hover id">
@@ -25,9 +25,9 @@
             <td ng-bind="customer.createdAt | date:'MM-dd-yyyy'"></td>
             <td>
                 <div class="btn-group btn-group-xs">
-                    <button ng-click="editDialog(customer, 'Edit')" class="btn btn-primary ">Edit</button>
+                    <button ng-click="editDialog(customer, true)" class="btn btn-primary ">Edit</button>
                     <button ng-click="showDetails(customer)" class="btn btn-default ">Details</button>
-                    <button ng-click="deleteDialog(customer)" class="btn btn-danger ">Delete</button>
+                    <button ng-click="deleteIt(customer)" class="btn btn-danger ">Delete</button>
                 </div>
             </td>
         </tr>
