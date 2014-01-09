@@ -18,7 +18,7 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             }
          })
          .when('/customers', {
-            controller: 'CustomersCtrl',
+            controller: 'CustomerCtrl',
             templateUrl: '/templates/customers.html',
             resolve: {
                customers: ['$q','$api', function ($q,$api) {

@@ -1,10 +1,10 @@
 angular.module('SalesModule', [])
-   .controller('SalesCtrl', ['$scope', '$rootScope', '$modal', '$api', 'customers',
-      function ($scope, $rootScope, $modal, $api, customers) {
-         $scope.customers = customers;
-         $rootScope.title = $scope.customers.length + " customers & counting";
-         $api.listen($api.customers, function (data, msg) {
-            $scope.customers = data;
+   .controller('SalesCtrl', ['$scope', '$rootScope', '$modal', '$api', 'sales',
+      function ($scope, $rootScope, $modal, $api, sales) {
+         $scope.sales = sales;
+         $rootScope.title = $scope.sales.length + " sales & counting";
+         $api.listen($api.sales, function (data, msg) {
+            $scope.sales = data;
             $scope.notify(msg);
             $scope.$apply();
          });
@@ -17,21 +17,21 @@ angular.module('SalesModule', [])
                      return {
                         data: data,
                         mode: mode,
-                        model: $api.customers,
+                        model: $api.sales,
                         attr: 'customer'
                      }
                   }
                }
             });
          };
-         $scope.showDetails = function (customer) {
+         $scope.showDetails = function (sales) {
             var modalInstance = $modal.open({
-               templateUrl: '/templates/partials/customers_details.html',
+               templateUrl: '/templates/partials/sales_details.html',
                controller: 'showDetailsCtrl',
                resolve: {
                   details: function () {
                      return {
-                        data: customer,
+                        data: sales,
                         editDialog: $scope.editDialog,
                         attr: 'customer'
                      }

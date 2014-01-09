@@ -3,7 +3,7 @@ var Services = angular.module('Services', [])
       var prefix = '/api';
       this.products = prefix + '/products/';
       this.customers = prefix + '/customers/';
-      this.customers = prefix + '/sales/';
+      this.sales = prefix + '/sales/';
 
       this.listen = function (model, cb) {
          socket.on('message', function (message) {

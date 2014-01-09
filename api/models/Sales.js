@@ -1,13 +1,20 @@
 module.exports = {
 
-	attributes: {
-  	name: {
+   attributes: {
+      customerName: {
+         type: 'string'
+      },
+      product: {
+         type: 'array'
+      },
+      by : {
+         type: 'string'
+      }
 
-		},
-		products: {
-
-		}
-
-	}
+   },
+   beforeValidation: function (values, next) {
+       console.log(typeof values.product);
+      next()
+   }
 
 };
