@@ -54,10 +54,9 @@ angular.module('Ctrl', [])
                edit: fact.mode,
                data: data,
                model: fact.model
-            }, function () {
-
+            }, function (success) {
+               if (success)  $modalInstance.close('Saved');
             });
-            $modalInstance.close('close');
          };
          $scope.cancel = function () {
             $modalInstance.dismiss('cancel');

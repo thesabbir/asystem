@@ -26,19 +26,29 @@ var Services = angular.module('Services', [])
             return cb(data);
          });
       };
-
+      var validate = function (res) {
+         console.log(res);
+         angular.element(document.querySelector('.has-error')).removeClass('has-error');
+         if (res.errors && res.errors[0].ValidationError) {
+            var msg = [];
+            for (var item in res.errors[0].ValidationError) {
+               msg.push('Invalid ' + item + ' !');
+               angular.element(document.querySelector('label[for=' + item + ']')).parent().addClass('has-error');
+            }
+            console.log( msg);
+            return false;
+         } else {
+            return true;
+         }
+      }
       this.submit = function (obj, cb) {
          if (obj.edit) {
             socket.put(obj.model + obj.data.id, obj.data, function (res) {
-               console.log(obj.model + obj.data.id);
-               if (!cb) return res;
-               return cb(res);
+               return  cb(validate(res));
             });
          } else {
             socket.post(obj.model, obj.data, function (res) {
-               console.log(res);
-               if (!cb) return res;
-               return cb(res);
+               return  cb(validate(res));
             });
          }
       };
