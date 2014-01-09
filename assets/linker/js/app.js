@@ -1,10 +1,10 @@
 var Module = angular.module('main',
-['ngRoute', 'ui.bootstrap','Ctrl', 'Services' ,'ProductsModule', 'CustomersModule']);
+['ngRoute', 'ui.bootstrap','Ctrl', 'Services' ,'ProductsModule', 'CustomersModule', 'SalesModule']);
 
 Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
       $routeProvider
          .when('/products', {
-            controller: 'ProductList',
+            controller: 'ProductCtrl',
             templateUrl: '/templates/products.html',
             resolve: {
                products: ['$q', '$api', function ($q, $api) {
@@ -18,14 +18,28 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             }
          })
          .when('/customers', {
-            controller: 'CustomersList',
+            controller: 'CustomersCtrl',
             templateUrl: '/templates/customers.html',
             resolve: {
-               customers: ['$q', function ($q) {
+               customers: ['$q','$api', function ($q,$api) {
                   var deferred = $q.defer();
-                  socket.get('/api/customers', function (data) {
+                  $api.fetch($api.customers, function (data) {
                      deferred.resolve(data);
-                  })
+                  });
+                  return deferred.promise;
+               }]
+
+            }
+         })
+         .when('/sales', {
+            controller: 'SalesCtrl',
+            templateUrl: '/templates/sales.html',
+            resolve: {
+               sales:  ['$q','$api', function ($q,$api) {
+                  var deferred = $q.defer();
+                  $api.fetch($api.sales, function (data) {
+                     deferred.resolve(data);
+                  });
                   return deferred.promise;
                }]
 

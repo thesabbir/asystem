@@ -1,5 +1,5 @@
 angular.module('ProductsModule', [])
-   .controller('ProductList', ['$scope', '$rootScope', '$modal', '$api', 'products',
+   .controller('ProductCtrl', ['$scope', '$rootScope', '$modal', '$api', 'products',
       function ($scope, $rootScope, $modal, $api, products) {
          $scope.products = products;
 

@@ -1,5 +1,5 @@
 angular.module('CustomersModule', [])
-   .controller('CustomersList', ['$scope', '$rootScope', '$modal', '$api', 'customers',
+   .controller('CustomerCtrl', ['$scope', '$rootScope', '$modal', '$api', 'customers',
       function ($scope, $rootScope, $modal, $api, customers) {
          $scope.customers = customers;
          $rootScope.title = $scope.customers.length + " customers & counting";
