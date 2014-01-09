@@ -23,9 +23,9 @@ module.exports = {
         },
         ratings: {
             type: 'integer',
-            defaultsTo: 5
+            defaultsTo: 0
         },
-        note: {
+        notes: {
             type: 'string'
         }
     }

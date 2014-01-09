@@ -21,7 +21,9 @@
             <td ng-bind="customer.name"></td>
             <td ng-bind="customer.email"></td>
             <td ng-bind="customer.phone"></td>
-            <td ng-bind="customer.ratings"></td>
+            <td>
+                <rating value="customer.ratings" readonly="true"></rating>
+            </td>
             <td ng-bind="customer.createdAt | date:'MM-dd-yyyy'"></td>
             <td>
                 <div class="btn-group btn-group-xs">

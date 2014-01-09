@@ -19,11 +19,13 @@
             </tr>
             <tr>
                 <td>Ratings</td>
-                <td ng-bind="customer.ratings"></td>
+                <td>
+                    <rating value="customer.ratings"  readonly="true"></rating>
+                </td>
             </tr>
             <tr>
-                <td>Note</td>
-                <td ng-bind="customer.note"></td>
+                <td>Notes</td>
+                <td ng-bind="customer.notes"></td>
             </tr>
             <tr>
                 <td>Added On</td>

@@ -22,6 +22,8 @@
                        ng-value="customer.email"
                        ng-model="customer.email"/><br/>
             </div>
+        </div>
+        <div class="form-group">
 
             <label class="col-sm-2 control-label" for="phone">Phone :</label>
 
@@ -30,6 +32,25 @@
                        ng-value="customer.phone"
                        ng-model="customer.phone"/><br/>
             </div>
+        </div>
+        <div class="ratings">
+            <span class="ratings-label">Ratings : </span>
+            <span class="ratings-star">
+            <rating value="customer.ratings"  ng-click="click(customer.ratings)"></rating>
+                <span class="label"
+                      ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}"
+                      ng-bind="percent + '%'"></span>
+                </span>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="notes">Notes :</label>
+
+            <div class="col-xs-9">
+                <textarea
+                        name="customer.notes" ng-model="customer.notes" class="form-control" id="notes" cols="30"
+                        rows="5" placeholder="Some Notes.."></textarea>
+            </div>
+
         </div>
     </div>
     <div class="modal-footer">

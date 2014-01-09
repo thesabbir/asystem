@@ -44,6 +44,11 @@ angular.module('Ctrl', [])
       function ($scope, $modalInstance, $api, fact) {
          $scope[fact.attr] = JSON.parse(JSON.stringify(fact.data));
          $scope.mode = fact.mode;
+         $scope.percent = 100 * ($scope[fact.attr].ratings / 10);
+         $scope.click = function (value) {
+            $scope.percent = 100 * (value / 5);
+         };
+
          $scope.submit = function (data) {
             $api.submit({
                edit: fact.mode,

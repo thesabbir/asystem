@@ -2,14 +2,14 @@ module.exports = {
 	feed: function (req, res, next) {
 		Products.find(function (err, products) {
 			if (err) return next(err);
-			if (!products) return res.json({err: 'No product Found'});
+			if (!products) return res.jsonp({err: 'No product Found'});
 
 			products.forEach(function (product,index) {
 				delete products[index].value;
 				delete products[index].totalSold;
 			});
 
-			res.json(products);
+			res.jsonp(products);
 		})
 	},
 	limit: function (req, res) {
