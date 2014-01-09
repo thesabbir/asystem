@@ -41,22 +41,19 @@ module.exports = function (grunt) {
 
     var jsFilesToInject = [
 
-        // Below, as a demonstration, you'll see the built-in dependencies
-        // linked in the proper order order
 
-        // Bring in the socket.io client
-        'linker/js/socket.io.js',
-
-        // A simpler boilerplate library for getting you up and running w/ an
-        // automatic listener for incoming messages from Socket.io.
-        'linker/js/angular.js',
-        'linker/js/angular-route.js',
-        'linker/js/ui-bootstrap-tpls-0.9.0.js',
-        'linker/js/ProductsModule.js',
-       '/linker/js/socket.js',
-        'linker/js/CustomersModule.js',
+        'linker/js/lib/socket.io.js',
+        'linker/js/lib/angular.js',
+        'linker/js/lib/angular-route.js',
+        'linker/js/lib/ui-bootstrap-tpls-0.9.0.js',
+       'linker/js/socket.js',
+//       'linker/js/ProductsModule.js',
+//        'linker/js/CustomersModule.js',
+//        'linker/js/Ctrl.js',
        // All of the rest of your app scripts imported here
-       'linker/**/*.js'
+       'linker/**/*.js',
+       'linker/js/app.js',
+
     ];
 
     /**

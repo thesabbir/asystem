@@ -1,4 +1,4 @@
-var Module = angular.module('main', ['Services','ngRoute', 'ui.bootstrap', 'ProductsModule', 'CustomersModule']);
+var Module = angular.module('main', ['ngRoute', 'ui.bootstrap','Ctrl', 'Services' ,'ProductsModule', 'CustomersModule']);
 
 Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
       $routeProvider
@@ -41,76 +41,8 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
       $locationProvider.hashPrefix('!');
    }])
 
-   .controller('Boss', ['$scope', function ($scope) {
 
-      $scope.sortBy = function (value) {
-
-         $scope.reverse = !$scope.reverse;
-         $scope.order = value;
-      };
-      $scope.notices = [];
-      $scope.notify = function (msg) {
-         $scope.$apply(function () {
-            $scope.notices.push(msg);
-         });
-         setTimeout(function () {
-            $scope.$apply(function () {
-               $scope.closeNotice(0);
-            });
-         }, 5000);
-      };
-      $scope.closeNotice = function (index) {
-         $scope.notices.splice(index, 1);
-      };
-
-   }])
    .controller('Home', ['$scope', function ($scope) {
 
-   }])
-   .controller('FormCtrl', ['$scope', '$modalInstance', 'product', 'mode', 'url',
-      function ($scope, $modalInstance, product, mode, url) {
-         $scope.product = product;
-         $scope.mode = mode;
-         $scope.submit = function () {
-            switch (mode) {
-               case 'Edit':
-                  socket.put(url + product.id, product);
-                  break;
-               default :
-                  socket.post(url, product)
-
-            }
-
-            $modalInstance.close('close');
-         };
-
-         $scope.cancel = function () {
-            $modalInstance.dismiss('cancel');
-         };
-
-      }]).controller('showDetailsCtrl', ['$scope', '$modalInstance', 'product', 'editDialog',
-      function ($scope, $modalInstance, product, editDialog) {
-         $scope.product = product;
-
-         $scope.edit = function () {
-            $scope.close();
-            return editDialog(product, 'edit');
-         }
-         $scope.close = function () {
-            $modalInstance.close('ok');
-         }
-
-      }])
-   .controller('DeleteCtrl', ['$scope', '$modalInstance', 'data', 'url',
-      function ($scope, $modalInstance, data, url) {
-         $scope.data = data;
-         $scope.cancel = function () {
-            $modalInstance.dismiss('cancelled');
-         }
-         $scope.delete = function () {
-            socket.delete(url + data.id, data, function () {
-               $modalInstance.close('deleted');
-            });
-         }
-      }]);
+   }]);
 

@@ -6,45 +6,32 @@ var ProductsModule = angular.module('ProductsModule', [])
          $scope.products = products;
 
          $rootScope.title = $scope.products.length + " Products & counting";
-
-         socket.on('message', function (message) {
-            var name = " & Name : ";
-            message.data ? name += message.data.name : name = '';
-            message.verb != 'destroy' ? message.verb += 'd ' : message.verb = 'Deleted';
-            var msg = message.model.slice(0, -1).capF() + '-ID : ' + message.id + name + ' was ' + message.verb;
-            $scope.notify({
-               msg: msg,
-               type: 'success'
-            });
-            socket.get(api.products, function (data) {
-               $scope.$apply(function () {
-                  $scope.products = data;
-                  $scope.total = $scope.products.length;
-
-               });
-            });
+         $api.listen($api.products, function (data, msg) {
+             $scope.products = data;
+            $scope.notify(msg);
+            $scope.$apply();
          });
 
-         $scope.editDialog = function (product, mode) {
+         $scope.editDialog = function (data, mode) {
             var modalInstance = $modal.open({
-               templateUrl: '/templates/form.html',
+               templateUrl: '/templates/partials/add_product.html',
                controller: 'FormCtrl',
                resolve: {
-                  product: function () {
-                     return product;
+                  data: function () {
+                     return data;
                   },
                   mode: function () {
                      return mode;
                   },
-                  url: function () {
-                     return api.products;
+                  model: function () {
+                     return $api.products;
                   }
                }
             })
          }
          $scope.showDetails = function (product) {
             var modalInstance = $modal.open({
-               templateUrl: '/templates/details.html',
+               templateUrl: '/templates/partials/details.html',
                controller: 'showDetailsCtrl',
                resolve: {
                   product: function () {
@@ -58,7 +45,7 @@ var ProductsModule = angular.module('ProductsModule', [])
          }
          $scope.deleteDialog = function (data) {
             var modalInstance = $modal.open({
-               templateUrl: '/templates/delete_dialog.html',
+               templateUrl: '/templates/partials/delete_dialog.html',
                controller: 'DeleteCtrl',
                resolve: {
                   data: function () {
