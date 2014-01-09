@@ -1,4 +1,5 @@
-var Module = angular.module('main', ['ngRoute', 'ui.bootstrap','Ctrl', 'Services' ,'ProductsModule', 'CustomersModule']);
+var Module = angular.module('main',
+['ngRoute', 'ui.bootstrap','Ctrl', 'Services' ,'ProductsModule', 'CustomersModule']);
 
 Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
       $routeProvider
@@ -41,8 +42,4 @@ Module.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
       $locationProvider.hashPrefix('!');
    }])
 
-
-   .controller('Home', ['$scope', function ($scope) {
-
-   }]);
 

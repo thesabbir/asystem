@@ -1,7 +1,7 @@
 <form class="form-horizontal" role="form">
 
     <div class="modal-header">
-        <h3 class="title" ng-bind="mode + ' an Item'"></h3>
+        <h3 class="title" ng-bind="mode ? 'Edit an Item' : 'Add an Item'"></h3>
     </div>
 
     <div class="modal-body">
@@ -10,8 +10,8 @@
 
             <div class="col-xs-9">
                 <input class="form-control" type="text" id="name" required="true"
-                       ng-value="data.name"
-                       ng-model="data.name"/><br/>
+                       ng-value="product.name"
+                       ng-model="product.name"/><br/>
             </div>
         </div>
         <div class="form-group">
@@ -19,16 +19,16 @@
 
             <div class="col-xs-3">
                 <input class="form-control" type="number" id="price" min="0" required="true"
-                       ng-value="data.price"
-                       ng-model="data.price"/><br/>
+                       ng-value="product.price"
+                       ng-model="product.price"/><br/>
             </div>
 
             <label class="col-sm-3 control-label" for="in_stock">In Stock :</label>
 
             <div class="col-xs-3">
                 <input class="form-control" type="number" id="in_stock" min="0" required="true"
-                       ng-value="data.inStock"
-                       ng-model="data.inStock"/><br/>
+                       ng-value="product.inStock"
+                       ng-model="product.inStock"/><br/>
             </div>
 
         </div>
@@ -37,8 +37,8 @@
 
             <div class="col-xs-3">
                 <input class="form-control" type="number" id="value" min="0" required="true"
-                       ng-value="data.value"
-                       ng-model="data.value"/><br/>
+                       ng-value="product.value"
+                       ng-model="product.value"/><br/>
             </div>
 
 
@@ -46,7 +46,7 @@
     </div>
     <div class="modal-footer">
         <!--<input type="hidden" name="_csrf" ng-value="_csrf" />-->
-        <input class="btn btn-primary" type="submit" ng-click="submit(data)" value="Save">
+        <input class="btn btn-primary" type="submit" ng-click="submit(product)" value="Save">
         <button class="btn btn-danger" ng-click="cancel()">Cancel</button>
     </div>
 </form>

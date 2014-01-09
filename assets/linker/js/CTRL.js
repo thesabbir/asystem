@@ -1,8 +1,7 @@
 var Ctrl = angular.module('Ctrl', [])
-   .controller('Boss', ['$scope', function ($scope) {
+   .controller('Boss', ['$scope', '$modal', function ($scope, $modal) {
 
       $scope.sortBy = function (value) {
-
          $scope.reverse = !$scope.reverse;
          $scope.order = value;
       };
@@ -21,49 +20,62 @@ var Ctrl = angular.module('Ctrl', [])
          $scope.notices.splice(index, 1);
       };
 
+      $scope.deleteDialog = function (data, model) {
+         var modalInstance = $modal.open({
+            templateUrl: '/templates/partials/delete_dialog.html',
+            controller: 'DeleteCtrl',
+            resolve: {
+               data: function () {
+                  return data;
+               },
+               model: function () {
+                  return model;
+               }
+            }
+         });
+      };
+
    }])
 
-   .controller('FormCtrl', ['$scope', '$modalInstance', '$api' , 'data', 'mode', 'model',
-      function ($scope, $modalInstance, $api, data, mode, model) {
-         var dataSet = JSON.parse(JSON.stringify(data));
-         $scope.data = dataSet;
-         $scope.mode = mode;
+   .controller('FormCtrl', ['$scope', '$modalInstance', '$api' , 'fact',
+      function ($scope, $modalInstance, $api, fact) {
+         $scope[fact.attr] = JSON.parse(JSON.stringify(fact.data));
+         $scope.mode = fact.mode;
          $scope.submit = function (data) {
-            switch (mode) {
-               case 'Edit':
-                  $api.update(model, data);
-                  break;
-               default :
-                  $api.create(model, data);
-            }
+            $api.submit({
+               edit: fact.mode,
+               data: data,
+               model: fact.model
+            }, function () {
+
+            });
             $modalInstance.close('close');
          };
          $scope.cancel = function () {
             $modalInstance.dismiss('cancel');
          };
 
-      }]).controller('showDetailsCtrl', ['$scope', '$modalInstance', 'product', 'editDialog',
-      function ($scope, $modalInstance, product, editDialog) {
-         $scope.product = product;
-
+      }])
+   .controller('showDetailsCtrl', ['$scope', '$modalInstance', 'details',
+      function ($scope, $modalInstance, details) {
+         $scope[details.attr] = details.data;
          $scope.edit = function () {
             $scope.close();
-            return editDialog(product, 'edit');
-         }
+            return details.editDialog(details.data, true);
+         };
          $scope.close = function () {
             $modalInstance.close('ok');
-         }
+         };
 
       }])
-   .controller('DeleteCtrl', ['$scope', '$modalInstance', 'data', 'url',
-      function ($scope, $modalInstance, data, url) {
+   .controller('DeleteCtrl', ['$scope', '$modalInstance', 'data', 'model', '$api',
+      function ($scope, $modalInstance, data, model, $api) {
          $scope.data = data;
          $scope.cancel = function () {
             $modalInstance.dismiss('cancelled');
-         }
+         };
          $scope.delete = function () {
-            socket.delete(url + data.id, data, function () {
-               $modalInstance.close('deleted');
-            });
-         }
+            $api.delete(model, data);
+            $modalInstance.close('deleted');
+         };
       }]);
