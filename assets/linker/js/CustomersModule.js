@@ -26,14 +26,14 @@ angular.module('CustomersModule', [])
          };
          $scope.showDetails = function (customer) {
             var modalInstance = $modal.open({
-               templateUrl: '/templates/partials/details.html',
+               templateUrl: '/templates/partials/customers_details.html',
                controller: 'showDetailsCtrl',
                resolve: {
                   details: function () {
                      return {
                         data: customer,
                         editDialog: $scope.editDialog,
-                        attr: 'product'
+                        attr: 'customer'
                      }
                   }
                }

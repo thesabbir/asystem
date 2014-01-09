@@ -14,8 +14,16 @@
                 <td ng-bind="product.price | currency"></td>
             </tr>
             <tr>
+                <td>Value</td>
+                <td ng-bind="product.value | currency"></td>
+            </tr>
+            <tr>
                 <td>In Stock</td>
                 <td ng-bind="product.inStock || 'Unavailable'"></td>
+            </tr>
+            <tr>
+                <td>Details</td>
+                <td ng-bind="product.details"></td>
             </tr>
             <tr>
                 <td>Created At</td>

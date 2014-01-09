@@ -28,7 +28,7 @@ angular.module('ProductsModule', [])
          };
          $scope.showDetails = function (product) {
             var modalInstance = $modal.open({
-               templateUrl: '/templates/partials/details.html',
+               templateUrl: '/templates/partials/product_details.html',
                controller: 'showDetailsCtrl',
                resolve: {
                   details: function () {

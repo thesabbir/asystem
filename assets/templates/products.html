@@ -10,7 +10,6 @@
             <th class="id"><a ng-click="sortBy('id')">ID</a></th>
             <th><a ng-click="sortBy('name')">Product Name</a></th>
             <th><a ng-click="sortBy('price')">Product Price</a></th>
-            <th><a ng-click="sortBy('value')">Product Value</a></th>
             <th><a ng-click="sortBy('inStock')">In Stock</a></th>
             <th><a ng-click="sortBy('updatedAt')">Updated At</a></th>
             <th><a>Actions</a></th>
@@ -20,7 +19,7 @@
             <td class="id" ng-bind="product.id"></td>
             <td ng-bind="product.name"></td>
             <td ng-bind="product.price | currency"></td>
-            <td ng-bind="product.value | currency"></td>
+
             <td ng-bind="product.inStock || 'Unavailable'"></td>
             <td ng-bind="product.updatedAt | date:'MM-dd-yyyy'"></td>
             <td>

@@ -35,12 +35,6 @@ module.exports = {
 		totalSold: {
 			type: 'integer',
 			defaultsTo: 0
-		},
-		toFeed: function () {
-			var obj = this.toObject();
-			delete obj.value;
-			delete obj.totalSold;
-			return obj;
 		}
 	}
 
