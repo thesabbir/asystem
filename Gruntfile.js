@@ -48,7 +48,7 @@ module.exports = function (grunt) {
         'linker/js/lib/ui-bootstrap-tpls-0.9.0.js',
        'linker/js/socket.js',
        'linker/**/*.js',
-       'linker/js/app.js',
+       'linker/js/app.js'
 
     ];
 
