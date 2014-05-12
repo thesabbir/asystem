@@ -12,6 +12,7 @@
 </head>
 
 <body>
+
 <div class="container" ng-controller="Boss">
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="col-xs-3 col-sm-offset-1">
@@ -19,10 +20,10 @@
         </div>
     </nav>
     <div class="afternav"></div>
-    <% if (session.authenticated){ %>
+
     <%- body %>
 
-    <% } else { %>
+    <!--
     <div class="login_form">
         <form class="form-horizontal" role="form" action="/api/login" method="POST">
             <div class="form-group">
@@ -57,9 +58,10 @@
             </div>
         </form>
     </div>
-    <% } %>
+
+
+-->
 </div>
-<% if (session.authenticated){ %>
 <!--SCRIPTS-->
 <script src="/linker/js/lib/socket.io.js"></script>
 <script src="/linker/js/lib/angular.js"></script>
@@ -74,6 +76,6 @@
 <script src="/linker/js/app.js"></script>
 <!--SCRIPTS END-->
 
-<% } %>
+
 </body>
 </html>

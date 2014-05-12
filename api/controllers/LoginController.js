@@ -14,7 +14,7 @@ module.exports = {
 				if (!valid) return res.json({err: 'Password mismatch !'});
 				req.session.authenticated = true;
 				req.session.User = user;
-				if(req.wantsJSON) return res.json({authorized: true, user: user});
+                if (req.wantsJSON) return res.json({authorized: true, username: user.username});
 				res.redirect('/');
 
 			});
