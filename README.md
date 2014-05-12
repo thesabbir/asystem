@@ -8,6 +8,6 @@ Not Quite. But We are making progress and it feels good. And It's still experime
 
 ### How to contribute ?
 
-For contribution you have to be familiar with javascript. We've used frameworks like Angular.js on Clientside and Sail.js on Serverside. 
+For contribution you have to be familiar with javascript. We've used frameworks Angular.js on Clientside and Sail.js on Serverside.
 
 For storage you can use pretty much any mainstream database you want.
